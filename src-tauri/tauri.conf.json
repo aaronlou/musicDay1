@@ -56,6 +56,9 @@
     "macOS": {
       "frameworks": [],
       "minimumSystemVersion": "10.13",
+      "signingIdentity": "Developer ID Application: Aaron Lou (V63B559WYX)",
+      "providerShortName": "V63B559WYX",
+      "entitlements": "entitlements.plist",
       "dmg": {
         "appPosition": {
           "x": 180,

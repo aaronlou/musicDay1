@@ -49,6 +49,27 @@ pnpm tauri:build
 - App: `src-tauri/target/release/bundle/macos/MusicDay1.app`
 - DMG: `src-tauri/target/release/bundle/dmg/MusicDay1_1.0.0_aarch64.dmg`
 
+### 发布 macOS DMG
+
+对外分发的 DMG 必须使用 Developer ID 签名并通过 Apple 公证。构建前需要本机安装 Developer ID Application 证书，并提供 App Store Connect API key：
+
+```bash
+export APPLE_API_KEY="YOUR_KEY_ID"
+export APPLE_API_ISSUER="YOUR_ISSUER_ID"
+export APPLE_API_KEY_PATH="$HOME/.appstoreconnect/private_keys/AuthKey_YOUR_KEY_ID.p8"
+
+pnpm tauri build --bundles app,dmg
+xcrun notarytool submit src-tauri/target/release/bundle/dmg/MusicDay1_1.0.0_aarch64.dmg \
+  --key "$APPLE_API_KEY_PATH" \
+  --key-id "$APPLE_API_KEY" \
+  --issuer "$APPLE_API_ISSUER" \
+  --wait
+xcrun stapler staple src-tauri/target/release/bundle/dmg/MusicDay1_1.0.0_aarch64.dmg
+spctl -a -vvv -t open --context context:primary-signature src-tauri/target/release/bundle/dmg/MusicDay1_1.0.0_aarch64.dmg
+```
+
+如果保留 `bundle.createUpdaterArtifacts: true`，还需要设置 `TAURI_SIGNING_PRIVATE_KEY` 或 `TAURI_SIGNING_PRIVATE_KEY_PATH` 来生成自动更新包签名。
+
 ## 课程大纲
 
 | 章节 | 内容 |
