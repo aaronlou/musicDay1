@@ -86,7 +86,7 @@ function AIImageBlock({
   prompt: string;
   onGenerated?: (url: string) => void;
 }) {
-  const { settings, generateImage, loading } = useImageGen();
+  const { status, generateImage, loading } = useImageGen();
   const [url, setUrl] = useState<string | null>(null);
 
   const handleGenerate = async () => {
@@ -108,7 +108,7 @@ function AIImageBlock({
     );
   }
 
-  if (!settings.enabled || !settings.apiKey) {
+  if (!status?.enabled) {
     return (
       <div className="my-4 bg-surface-light/50 rounded-xl p-6 border border-surface-light text-center">
         <ImageIcon className="w-8 h-8 mx-auto mb-2 text-text-muted" />

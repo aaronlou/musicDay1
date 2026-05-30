@@ -155,3 +155,25 @@ pub struct VoiceOptionDto {
     pub id: String,
     pub name: String,
 }
+
+// ============ Image Gen DTOs ============
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ImageGenStatusDto {
+    pub enabled: bool,
+    pub backend: String,
+    pub backends: Vec<ImageBackendOptionDto>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ImageBackendOptionDto {
+    pub id: String,
+    pub name: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ImageGenResultDto {
+    pub base64: Option<String>,
+    pub width: u32,
+    pub height: u32,
+}

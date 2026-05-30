@@ -9,6 +9,8 @@ import type {
   QuizSubmissionDto,
   QuizResultDto,
   TtsStatusDto,
+  ImageGenStatusDto,
+  ImageGenResultDto,
 } from "./types";
 
 export const getCourseCatalog = () =>
@@ -47,3 +49,14 @@ export const updateTtsConfig = (config: {
   appid?: string;
   token?: string;
 }) => invoke<TtsStatusDto>("update_tts_config", config);
+
+export const getImageGenStatus = () =>
+  invoke<ImageGenStatusDto>("get_image_gen_status");
+
+export const updateImageGenConfig = (config: {
+  backend?: string;
+  api_key?: string;
+}) => invoke<ImageGenStatusDto>("update_image_gen_config", config);
+
+export const generateImage = (prompt: string, aspectRatio?: string) =>
+  invoke<ImageGenResultDto>("generate_image", { prompt, aspectRatio });

@@ -12,6 +12,7 @@ use crate::domain::repositories::{CourseRepository, ProgressRepository};
 use crate::infrastructure::persistence::file_storage::FileStorage;
 use crate::infrastructure::repositories::in_memory_course_repository::InMemoryCourseRepository;
 use crate::infrastructure::repositories::json_file_progress_repository::JsonFileProgressRepository;
+use crate::infrastructure::image;
 use crate::infrastructure::tts::{VolcanoTts, VOLCANO_VOICES};
 
 // ============ Application Service Container ============
@@ -354,4 +355,173 @@ async fn play_audio_async(path: String) {
     if path.starts_with(temp_dir.to_string_lossy().as_ref()) {
         let _ = std::fs::remove_file(&path);
     }
+}
+
+// ============ Image Gen Commands ============
+
+static IMAGE_CONFIG: OnceLock<Mutex<ImageConfig>> = OnceLock::new();
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+struct PersistedImageConfig {
+    backend: String,
+    api_key: String,
+}
+
+#[derive(Debug, Clone)]
+struct ImageConfig {
+    backend: String,
+    api_key: String,
+    enabled: bool,
+}
+
+const IMAGE_BACKENDS: &[(&str, &str)] = &[
+    ("seedream", "Seedream (火山引擎)"),
+    ("openai", "OpenAI (DALL-E / GPT-Image)"),
+];
+
+fn image_config_path() -> std::path::PathBuf {
+    let home = std::env::var("HOME").unwrap_or_else(|_| ".".to_string());
+    std::path::PathBuf::from(home)
+        .join(".musicday1")
+        .join("image_config.json")
+}
+
+fn load_persisted_image_config() -> Option<PersistedImageConfig> {
+    let path = image_config_path();
+    let content = std::fs::read_to_string(&path).ok()?;
+    serde_json::from_str::<PersistedImageConfig>(&content).ok()
+}
+
+fn save_persisted_image_config(config: &PersistedImageConfig) {
+    let path = image_config_path();
+    if let Some(parent) = path.parent() {
+        let _ = std::fs::create_dir_all(parent);
+    }
+    if let Ok(json) = serde_json::to_string_pretty(config) {
+        let _ = std::fs::write(&path, json);
+    }
+}
+
+fn get_image_config() -> std::sync::MutexGuard<'static, ImageConfig> {
+    let config = IMAGE_CONFIG.get_or_init(|| {
+        let env_key = std::env::var("SEEDREAM_API_KEY")
+            .or_else(|_| std::env::var("OPENAI_API_KEY"))
+            .unwrap_or_default();
+        let env_backend = if std::env::var("SEEDREAM_API_KEY").is_ok() {
+            "seedream"
+        } else if std::env::var("OPENAI_API_KEY").is_ok() {
+            "openai"
+        } else {
+            ""
+        };
+
+        let persisted = load_persisted_image_config();
+
+        let backend = if !env_backend.is_empty() {
+            env_backend.to_string()
+        } else {
+            persisted
+                .as_ref()
+                .map(|p| p.backend.clone())
+                .unwrap_or_else(|| "seedream".to_string())
+        };
+
+        let api_key = if !env_key.is_empty() {
+            env_key
+        } else {
+            persisted
+                .as_ref()
+                .map(|p| p.api_key.clone())
+                .unwrap_or_default()
+        };
+
+        let enabled = !api_key.is_empty();
+
+        Mutex::new(ImageConfig {
+            backend,
+            api_key,
+            enabled,
+        })
+    });
+    config.lock().unwrap()
+}
+
+#[tauri::command]
+pub fn get_image_gen_status() -> Result<ImageGenStatusDto, String> {
+    let config = get_image_config();
+    Ok(ImageGenStatusDto {
+        enabled: config.enabled,
+        backend: config.backend.clone(),
+        backends: IMAGE_BACKENDS
+            .iter()
+            .map(|(id, name)| ImageBackendOptionDto {
+                id: id.to_string(),
+                name: name.to_string(),
+            })
+            .collect(),
+    })
+}
+
+#[tauri::command]
+pub fn update_image_gen_config(
+    backend: Option<String>,
+    api_key: Option<String>,
+) -> Result<ImageGenStatusDto, String> {
+    let mut config = get_image_config();
+    if let Some(b) = backend {
+        config.backend = b;
+    }
+    if let Some(k) = api_key {
+        config.api_key = k;
+    }
+    config.enabled = !config.api_key.is_empty();
+
+    save_persisted_image_config(&PersistedImageConfig {
+        backend: config.backend.clone(),
+        api_key: config.api_key.clone(),
+    });
+
+    Ok(ImageGenStatusDto {
+        enabled: config.enabled,
+        backend: config.backend.clone(),
+        backends: IMAGE_BACKENDS
+            .iter()
+            .map(|(id, name)| ImageBackendOptionDto {
+                id: id.to_string(),
+                name: name.to_string(),
+            })
+            .collect(),
+    })
+}
+
+#[tauri::command]
+pub async fn generate_image(
+    prompt: String,
+    aspect_ratio: Option<String>,
+) -> Result<ImageGenResultDto, String> {
+    let config = {
+        let cfg = get_image_config();
+        cfg.clone()
+    };
+
+    if !config.enabled {
+        return Err("Image generation is not configured. Add an API key in Settings.".to_string());
+    }
+
+    let options = image::ImageGenOptions {
+        prompt,
+        aspect_ratio,
+    };
+
+    let result = match config.backend.as_str() {
+        "seedream" => image::generate_seedream(&config.api_key, &options).await?,
+        "openai" => image::generate_openai(&config.api_key, &options).await?,
+        other => return Err(format!("Unknown image backend: {}", other)),
+    };
+
+    Ok(ImageGenResultDto {
+        base64: result.base64,
+        width: result.width,
+        height: result.height,
+    })
 }

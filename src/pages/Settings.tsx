@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import type { AISettings, LLMProvider } from "@/types/ai";
 import { DEFAULT_MODELS, PROVIDER_BASE_URLS } from "@/types/ai";
-import type { ImageGenSettings } from "@/hooks/useImageGen";
+import { useImageGen } from "@/hooks/useImageGen";
 import { getTtsStatus, updateTtsConfig } from "@/api";
 import type { TtsStatusDto } from "@/api/types";
 import { check } from "@tauri-apps/plugin-updater";
@@ -27,7 +27,6 @@ import {
 } from "lucide-react";
 
 const AI_SETTINGS_KEY = "musicday1-ai-settings";
-const IMAGE_SETTINGS_KEY = "musicday1-image-settings";
 
 function loadAISettings(): AISettings {
   try {
@@ -42,22 +41,8 @@ function loadAISettings(): AISettings {
   };
 }
 
-function loadImageSettings(): ImageGenSettings {
-  try {
-    const raw = localStorage.getItem(IMAGE_SETTINGS_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch {}
-  return {
-    enabled: false,
-    provider: "openai",
-    apiKey: "",
-    model: "gpt-image-1",
-  };
-}
-
 export default function Settings() {
   const [aiSettings, setAISettings] = useState<AISettings>(loadAISettings);
-  const [imgSettings, setImgSettings] = useState<ImageGenSettings>(loadImageSettings);
   const [showAIKey, setShowAIKey] = useState(false);
   const [showImgKey, setShowImgKey] = useState(false);
   const [showTtsKey, setShowTtsKey] = useState(false);
@@ -125,9 +110,12 @@ export default function Settings() {
     localStorage.setItem(AI_SETTINGS_KEY, JSON.stringify(aiSettings));
   }, [aiSettings]);
 
-  useEffect(() => {
-    localStorage.setItem(IMAGE_SETTINGS_KEY, JSON.stringify(imgSettings));
-  }, [imgSettings]);
+  // Image gen — managed by Rust backend
+  const {
+    status: imageStatus,
+    setBackend: setImageBackend,
+    setApiKey: setImageApiKey,
+  } = useImageGen();
 
   useEffect(() => {
     getTtsStatus().then((status) => {
@@ -432,79 +420,80 @@ export default function Settings() {
           </div>
           <div>
             <h2 className="text-lg font-bold">AI 图片生成</h2>
-            <p className="text-text-muted text-sm">为课程内容生成 AI 配图</p>
+            <p className="text-text-muted text-sm">为课程内容生成 AI 配图，Seedream 复用火山引擎账号</p>
           </div>
         </div>
 
-        <div className="flex items-center justify-between py-3 border-b border-surface-light">
-          <span className="text-sm">启用 AI 配图</span>
-          <button
-            onClick={() => setImgSettings((p) => ({ ...p, enabled: !p.enabled }))}
-            className={`w-12 h-6 rounded-full transition-colors relative ${
-              imgSettings.enabled ? "bg-primary" : "bg-surface-light"
-            }`}
-          >
-            <div
-              className={`w-5 h-5 rounded-full bg-white absolute top-0.5 transition-transform ${
-                imgSettings.enabled ? "translate-x-6" : "translate-x-0.5"
-              }`}
-            />
-          </button>
-        </div>
-
-        {imgSettings.enabled && (
-          <div className="space-y-4 mt-4">
-            <div>
-              <label className="text-sm text-text-muted mb-1.5 block">服务商</label>
-              <div className="grid grid-cols-2 gap-2">
-                {(["openai", "openrouter"] as const).map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => setImgSettings((prev) => ({ ...prev, provider: p, model: p === "openai" ? "gpt-image-1" : "openai/gpt-image-1" }))}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium border-2 transition-colors ${
-                      imgSettings.provider === p
-                        ? "border-primary bg-primary/20 text-primary"
-                        : "border-surface-light bg-surface-light/50 text-text-muted hover:border-primary/50"
-                    }`}
-                  >
-                    {p === "openai" ? "OpenAI (DALL-E / GPT-Image)" : "OpenRouter"}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm text-text-muted mb-1.5 block">模型</label>
-              <input
-                type="text"
-                value={imgSettings.model}
-                onChange={(e) => setImgSettings((p) => ({ ...p, model: e.target.value }))}
-                placeholder="gpt-image-1"
-                className="w-full bg-surface-light rounded-lg px-3 py-2.5 text-sm outline-none border border-transparent focus:border-primary text-text placeholder:text-text-muted"
-              />
-            </div>
-
-            <div>
-              <label className="text-sm text-text-muted mb-1.5 block">API Key</label>
-              <div className="relative">
-                <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                <input
-                  type={showImgKey ? "text" : "password"}
-                  value={imgSettings.apiKey}
-                  onChange={(e) => setImgSettings((p) => ({ ...p, apiKey: e.target.value }))}
-                  placeholder="sk-..."
-                  className="w-full bg-surface-light rounded-lg pl-9 pr-9 py-2.5 text-sm outline-none border border-transparent focus:border-primary text-text placeholder:text-text-muted"
-                />
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm text-text-muted mb-1.5 block">图片后端</label>
+            <div className="grid grid-cols-2 gap-2">
+              {(imageStatus?.backends ?? []).map((b) => (
                 <button
-                  onClick={() => setShowImgKey((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text"
+                  key={b.id}
+                  onClick={() => setImageBackend(b.id)}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium border-2 transition-colors ${
+                    imageStatus?.backend === b.id
+                      ? "border-primary bg-primary/20 text-primary"
+                      : "border-surface-light bg-surface-light/50 text-text-muted hover:border-primary/50"
+                  }`}
                 >
-                  {showImgKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {b.name}
                 </button>
-              </div>
+              ))}
             </div>
           </div>
-        )}
+
+          <div>
+            <label className="text-sm text-text-muted mb-1.5 block">
+              API Key
+              {imageStatus?.backend === "seedream" && (
+                <span className="text-text-muted/60"> — ARK 平台 API Key</span>
+              )}
+            </label>
+            <div className="relative">
+              <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+              <input
+                type={showImgKey ? "text" : "password"}
+                onChange={(e) => setImageApiKey(e.target.value)}
+                onBlur={(e) => e.target.value && setImageApiKey(e.target.value)}
+                placeholder={
+                  imageStatus?.backend === "seedream"
+                    ? "ark-..."
+                    : "sk-..."
+                }
+                className="w-full bg-surface-light rounded-lg pl-9 pr-9 py-2.5 text-sm outline-none border border-transparent focus:border-primary text-text placeholder:text-text-muted"
+              />
+              <button
+                onClick={() => setShowImgKey((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text"
+              >
+                {showImgKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+            {imageStatus?.backend === "seedream" && (
+              <p className="text-xs text-text-muted mt-1.5">
+                前往 <a href="https://console.volcengine.com/ark" target="_blank" rel="noopener noreferrer" className="text-primary underline">console.volcengine.com/ark</a> 创建 API Key
+              </p>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 text-xs">
+            {imageStatus?.enabled ? (
+              <>
+                <CheckCircle2 className="w-3.5 h-3.5 text-success" />
+                <span className="text-success">
+                  图片生成已就绪 — 后端: {imageStatus.backend}
+                </span>
+              </>
+            ) : (
+              <>
+                <AlertCircle className="w-3.5 h-3.5 text-warning" />
+                <span className="text-warning">未配置 API Key</span>
+              </>
+            )}
+          </div>
+        </div>
       </motion.div>
 
       {/* Version & Updates */}

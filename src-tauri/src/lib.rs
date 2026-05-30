@@ -33,6 +33,9 @@ pub fn run() {
             interface::commands::stop_speech,
             interface::commands::get_tts_status,
             interface::commands::update_tts_config,
+            interface::commands::get_image_gen_status,
+            interface::commands::update_image_gen_config,
+            interface::commands::generate_image,
         ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application");

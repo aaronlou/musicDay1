@@ -123,3 +123,22 @@ export interface VoiceOptionDto {
   id: string;
   name: string;
 }
+
+// Image Gen DTOs
+
+export interface ImageGenStatusDto {
+  enabled: boolean;
+  backend: string;
+  backends: ImageBackendOptionDto[];
+}
+
+export interface ImageBackendOptionDto {
+  id: string;
+  name: string;
+}
+
+export interface ImageGenResultDto {
+  base64: string | null;
+  width: number;
+  height: number;
+}
