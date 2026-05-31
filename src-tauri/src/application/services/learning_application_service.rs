@@ -36,12 +36,12 @@ impl LearningApplicationService {
         let today = Local::now().naive_local().date();
         progress.complete_lesson(id, today);
         self.progress_repo.save(&progress)?;
-        Ok(self.build_progress_dto(progress))
+        Ok(self.build_progress_dto(progress, "zh"))
     }
 
     pub fn get_progress(&self) -> Result<UserProgressDto, DomainError> {
         let progress = self.progress_repo.load()?;
-        Ok(self.build_progress_dto(progress))
+        Ok(self.build_progress_dto(progress, "zh"))
     }
 
     pub fn reset_progress(&self) -> Result<(), DomainError> {
@@ -52,9 +52,10 @@ impl LearningApplicationService {
 
     pub fn get_lesson_accessibility(
         &self,
+        lang: &str,
     ) -> Result<Vec<LessonAccessibilityDto>, DomainError> {
         let progress = self.progress_repo.load()?;
-        let all_lessons = self.course_repo.get_all_lessons();
+        let all_lessons = self.course_repo.get_all_lessons(lang);
         let mut result = Vec::new();
         let mut prev_completed = true;
 
@@ -72,11 +73,11 @@ impl LearningApplicationService {
         Ok(result)
     }
 
-    fn build_progress_dto(&self, progress: crate::domain::entities::UserProgress) -> UserProgressDto {
+    fn build_progress_dto(&self, progress: crate::domain::entities::UserProgress, lang: &str) -> UserProgressDto {
         ProgressMapper::to_dto(
             progress,
-            self.course_repo.total_lessons(),
-            self.course_repo.total_quizzes(),
+            self.course_repo.total_lessons(lang),
+            self.course_repo.total_quizzes(lang),
         )
     }
 }

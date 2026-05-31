@@ -1,6 +1,8 @@
 # MusicDay1 (Music Theory Master)
 
 > 零基础乐理学习 App —— 从零开始，系统掌握音乐理论
+> 
+> Zero-to-hero music theory app — learn systematically from scratch. Supports **中文 / English**.
 
 ## 项目简介
 

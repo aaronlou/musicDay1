@@ -2,18 +2,20 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, BookOpen, BarChart3, Piano, Music, Guitar, Settings } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ReactNode } from "react";
-
-const navItems = [
-  { path: "/", label: "首页", icon: Home },
-  { path: "/learn", label: "课程", icon: BookOpen },
-  { path: "/piano", label: "钢琴", icon: Piano },
-  { path: "/guitar", label: "吉他", icon: Guitar },
-  { path: "/progress", label: "进度", icon: BarChart3 },
-  { path: "/settings", label: "设置", icon: Settings },
-];
+import { useTranslation } from "react-i18next";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const { t } = useTranslation();
+
+  const navItems = [
+    { path: "/", label: t("nav.home"), icon: Home },
+    { path: "/learn", label: t("nav.courses"), icon: BookOpen },
+    { path: "/piano", label: t("nav.piano"), icon: Piano },
+    { path: "/guitar", label: t("nav.guitar"), icon: Guitar },
+    { path: "/progress", label: t("nav.progress"), icon: BarChart3 },
+    { path: "/settings", label: t("nav.settings"), icon: Settings },
+  ];
 
   return (
     <div className="flex h-screen bg-background text-text overflow-hidden">

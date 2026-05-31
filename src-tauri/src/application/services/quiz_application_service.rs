@@ -29,12 +29,13 @@ impl QuizApplicationService {
     pub fn submit_quiz(
         &self,
         submission: QuizSubmissionDto,
+        lang: &str,
     ) -> Result<QuizResultDto, DomainError> {
         let quiz_id = QuizId::new(&submission.quiz_id);
 
         let (_, _, _, quiz) = self
             .course_repo
-            .find_quiz_by_id(&quiz_id)
+            .find_quiz_by_id(&quiz_id, lang)
             .ok_or_else(|| DomainError::QuizNotFound(submission.quiz_id.clone()))?;
 
         let answers: Vec<(QuestionId, Answer)> = submission

@@ -8,6 +8,7 @@ import {
 import { getLessonDetail, getNavigation } from "@/api";
 import type { LessonDetailDto, NavigationDto } from "@/api/types";
 import { useProgressContext } from "@/context/ProgressContext";
+import { useLanguage } from "@/context/LanguageContext";
 import AIChatPanel from "@/components/AIChatPanel";
 import StaffSVG from "@/components/music/StaffSVG";
 import ChordVisualizer from "@/components/music/ChordVisualizer";
@@ -15,8 +16,8 @@ import WaveAnimation from "@/components/music/WaveAnimation";
 import ChordBuildAnimation from "@/components/music/ChordBuildAnimation";
 import { useTTS } from "@/hooks/useTTS";
 import { useImageGen } from "@/hooks/useImageGen";
+import { useTranslation } from "react-i18next";
 
-// 解析课程内容中的特殊标记，渲染为可视化组件
 function RichContent({
   paragraph,
   onImageGenerated,
@@ -24,7 +25,6 @@ function RichContent({
   paragraph: string;
   onImageGenerated?: (url: string) => void;
 }) {
-  // [staff:notes] 标记 → 五线谱
   const staffMatch = paragraph.match(/\[staff:([^\]]+)\]/);
   if (staffMatch) {
     const notes = staffMatch[1].split(",").map((n) => ({
@@ -38,7 +38,6 @@ function RichContent({
     );
   }
 
-  // [chord:root:quality] 标记 → 和弦构成图
   const chordMatch = paragraph.match(/\[chord:([^:]+):([^\]]+)\]/);
   if (chordMatch) {
     return (
@@ -48,7 +47,6 @@ function RichContent({
     );
   }
 
-  // [wave:freq] 标记 → 声波动画
   const waveMatch = paragraph.match(/\[wave:([\d.]+)\]/);
   if (waveMatch) {
     return (
@@ -58,7 +56,6 @@ function RichContent({
     );
   }
 
-  // [build:notes:roles] 标记 → 和弦构成动画
   const buildMatch = paragraph.match(/\[build:([^:]+):([^\]]+)\]/);
   if (buildMatch) {
     const notes = buildMatch[1].split(",").map((n) => n.trim());
@@ -70,7 +67,6 @@ function RichContent({
     );
   }
 
-  // [image:prompt] 标记 → AI 图片生成占位
   const imgMatch = paragraph.match(/\[image:([^\]]+)\]/);
   if (imgMatch) {
     return <AIImageBlock prompt={imgMatch[1]} onGenerated={onImageGenerated} />;
@@ -88,6 +84,7 @@ function AIImageBlock({
 }) {
   const { status, generateImage, loading } = useImageGen();
   const [url, setUrl] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const handleGenerate = async () => {
     const result = await generateImage(
@@ -103,7 +100,9 @@ function AIImageBlock({
     return (
       <div className="my-4 rounded-xl overflow-hidden border border-surface-light">
         <img src={url} alt={prompt} className="w-full object-cover" />
-        <div className="text-xs text-text-muted px-3 py-1.5 bg-surface-light">AI 生成：{prompt}</div>
+        <div className="text-xs text-text-muted px-3 py-1.5 bg-surface-light">
+          {t("lesson.aiGenerated", { prompt })}
+        </div>
       </div>
     );
   }
@@ -112,9 +111,9 @@ function AIImageBlock({
     return (
       <div className="my-4 bg-surface-light/50 rounded-xl p-6 border border-surface-light text-center">
         <ImageIcon className="w-8 h-8 mx-auto mb-2 text-text-muted" />
-        <p className="text-sm text-text-muted mb-1">此处可生成 AI 配图：{prompt}</p>
+        <p className="text-sm text-text-muted mb-1">{t("lesson.aiImageAvailable", { prompt })}</p>
         <Link to="/settings" className="text-primary text-xs hover:underline">
-          在设置中启用 AI 图片生成 →
+          {t("lesson.enableAiImage")}
         </Link>
       </div>
     );
@@ -123,14 +122,14 @@ function AIImageBlock({
   return (
     <div className="my-4 bg-surface-light/50 rounded-xl p-6 border border-surface-light text-center">
       <ImageIcon className="w-8 h-8 mx-auto mb-2 text-text-muted" />
-      <p className="text-sm text-text-muted mb-2">AI 配图：{prompt}</p>
+      <p className="text-sm text-text-muted mb-2">{t("lesson.aiImagePrompt", { prompt })}</p>
       <button
         onClick={handleGenerate}
         disabled={loading}
         className="inline-flex items-center gap-2 bg-primary/20 hover:bg-primary/30 text-primary px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-40"
       >
         <Wand2 className="w-4 h-4" />
-        {loading ? "生成中..." : "生成配图"}
+        {loading ? t("lesson.generating") : t("lesson.generateImage")}
       </button>
     </div>
   );
@@ -141,6 +140,8 @@ export default function LessonPage() {
   const navigate = useNavigate();
   const { markLessonComplete, isLessonComplete } = useProgressContext();
   const { speak, stop, speaking, supported: ttsSupported } = useTTS();
+  const { t } = useTranslation();
+  const { language } = useLanguage();
 
   const [lesson, setLesson] = useState<LessonDetailDto | null>(null);
   const [navigation, setNavigation] = useState<NavigationDto | null>(null);
@@ -152,7 +153,7 @@ export default function LessonPage() {
     if (!lessonId) return;
     setLoading(true);
     setError(null);
-    Promise.all([getLessonDetail(lessonId), getNavigation(lessonId)])
+    Promise.all([getLessonDetail(lessonId, language), getNavigation(lessonId, language)])
       .then(([lessonData, navData]) => {
         setLesson(lessonData);
         setNavigation(navData);
@@ -162,7 +163,7 @@ export default function LessonPage() {
         setError(err instanceof Error ? err.message : String(err));
         setLoading(false);
       });
-  }, [lessonId]);
+  }, [lessonId, language]);
 
   const completed = lessonId ? isLessonComplete(lessonId) : false;
 
@@ -183,7 +184,7 @@ export default function LessonPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-text-muted">加载中...</div>
+        <div className="text-text-muted">{t("common.loading")}</div>
       </div>
     );
   }
@@ -192,9 +193,9 @@ export default function LessonPage() {
     return (
       <div className="p-10 text-center text-text-muted">
         <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
-        <p>{error || "课程不存在"}</p>
+        <p>{error || t("lesson.lessonNotFound")}</p>
         <Link to="/learn" className="text-primary hover:underline mt-2 inline-block">
-          返回课程列表
+          {t("lesson.backToCourses")}
         </Link>
       </div>
     );
@@ -205,7 +206,7 @@ export default function LessonPage() {
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-text-muted mb-6">
         <Link to="/learn" className="hover:text-primary transition-colors">
-          课程
+          {t("lesson.breadcrumbCourses")}
         </Link>
         <span>/</span>
         <span>{lesson.chapter_title}</span>
@@ -219,7 +220,7 @@ export default function LessonPage() {
       >
         <div className="mb-6">
           <div className="text-primary text-sm font-medium mb-2">
-            {lesson.chapter_title} · 第 {lesson.order} 课
+            {lesson.chapter_title} · {t("lesson.lessonNumber", { order: lesson.order })}
           </div>
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -234,7 +235,7 @@ export default function LessonPage() {
                     ? "bg-primary/20 text-primary"
                     : "bg-surface-light text-text-muted hover:text-primary"
                 }`}
-                title={speaking ? "停止朗读" : "朗读课程内容"}
+                title={speaking ? t("lesson.stopReading") : t("lesson.readContent")}
               >
                 {speaking ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
@@ -256,7 +257,7 @@ export default function LessonPage() {
           <div className="bg-secondary/10 border border-secondary/20 rounded-2xl p-6 mb-6">
             <div className="flex items-center gap-2 mb-3">
               <Lightbulb className="w-5 h-5 text-secondary" />
-              <h3 className="font-bold text-secondary">学习小贴士</h3>
+              <h3 className="font-bold text-secondary">{t("lesson.tipsTitle")}</h3>
             </div>
             <ul className="space-y-2">
               {lesson.tips.map((tip, i) => (
@@ -274,16 +275,16 @@ export default function LessonPage() {
           <div className="bg-primary/10 border border-primary/20 rounded-2xl p-6 mb-6">
             <div className="flex items-center gap-2 mb-2">
               <HelpCircle className="w-5 h-5 text-primary" />
-              <h3 className="font-bold text-primary">本节测验</h3>
+              <h3 className="font-bold text-primary">{t("lesson.quizTitle")}</h3>
             </div>
             <p className="text-text-muted text-sm mb-4">
-              通过 {lesson.quiz_question_count} 道题目检验你对本节内容的掌握程度
+              {t("lesson.quizDesc", { count: lesson.quiz_question_count })}
             </p>
             <Link
               to={`/quiz/${lesson.quiz_id}`}
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
             >
-              开始测验
+              {t("lesson.startQuiz")}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -298,7 +299,7 @@ export default function LessonPage() {
             >
               <ArrowLeft className="w-4 h-4" />
               <div className="text-left hidden sm:block">
-                <div className="text-xs">上一课</div>
+                <div className="text-xs">{t("lesson.prevLesson")}</div>
                 <div className="text-sm font-medium">{navigation.prev_lesson_title}</div>
               </div>
             </button>
@@ -312,12 +313,12 @@ export default function LessonPage() {
               className="flex items-center gap-2 bg-success hover:bg-success/80 text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
             >
               <CheckCircle2 className="w-4 h-4" />
-              标记为已完成
+              {t("lesson.markComplete")}
             </button>
           ) : (
             <div className="flex items-center gap-2 text-success">
               <CheckCircle2 className="w-5 h-5" />
-              <span className="font-medium">已完成</span>
+              <span className="font-medium">{t("common.completed")}</span>
             </div>
           )}
 
@@ -327,7 +328,7 @@ export default function LessonPage() {
               className="flex items-center gap-2 text-text-muted hover:text-text transition-colors"
             >
               <div className="text-right hidden sm:block">
-                <div className="text-xs">下一课</div>
+                <div className="text-xs">{t("common.next")}</div>
                 <div className="text-sm font-medium">{navigation.next_lesson_title}</div>
               </div>
               <ArrowRight className="w-4 h-4" />

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle2, Lock, Play, ChevronRight } from "lucide-react";
 import { useProgressContext } from "@/context/ProgressContext";
+import { useTranslation } from "react-i18next";
 
 const chapterColors = [
   "from-rose-500/20 to-orange-500/20",
@@ -13,11 +14,12 @@ const chapterColors = [
 
 export default function Learn() {
   const { courseCatalog, accessibility, loading } = useProgressContext();
+  const { t } = useTranslation();
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-text-muted">加载中...</div>
+        <div className="text-text-muted">{t("common.loading")}</div>
       </div>
     );
   }
@@ -25,7 +27,7 @@ export default function Learn() {
   if (!courseCatalog) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-text-muted">课程数据加载失败</div>
+        <div className="text-text-muted">{t("learn.courseLoadFailed")}</div>
       </div>
     );
   }
@@ -37,9 +39,9 @@ export default function Learn() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold mb-2">学习路径</h1>
+        <h1 className="text-3xl font-bold mb-2">{t("learn.title")}</h1>
         <p className="text-text-muted">
-          按顺序完成课程，逐步建立完整的乐理知识体系
+          {t("learn.subtitle")}
         </p>
       </motion.div>
 

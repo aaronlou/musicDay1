@@ -43,26 +43,30 @@ impl AppState {
 // ============ Tauri Commands ============
 
 #[tauri::command]
-pub fn get_course_catalog(state: State<'_, AppState>) -> Result<CourseCatalogDto, String> {
-    Ok(state.course_service.get_course_catalog())
+pub fn get_course_catalog(state: State<'_, AppState>, lang: Option<String>) -> Result<CourseCatalogDto, String> {
+    let lang = lang.as_deref().unwrap_or("zh");
+    Ok(state.course_service.get_course_catalog(lang))
 }
 
 #[tauri::command]
 pub fn get_lesson_detail(
     state: State<'_, AppState>,
     lesson_id: String,
+    lang: Option<String>,
 ) -> Result<LessonDetailDto, String> {
+    let lang = lang.as_deref().unwrap_or("zh");
     state
         .course_service
-        .get_lesson_detail(&lesson_id)
+        .get_lesson_detail(&lesson_id, lang)
         .map_err(|e: crate::domain::errors::DomainError| e.to_string())
 }
 
 #[tauri::command]
-pub fn get_quiz(state: State<'_, AppState>, quiz_id: String) -> Result<QuizDto, String> {
+pub fn get_quiz(state: State<'_, AppState>, quiz_id: String, lang: Option<String>) -> Result<QuizDto, String> {
+    let lang = lang.as_deref().unwrap_or("zh");
     state
         .course_service
-        .get_quiz(&quiz_id)
+        .get_quiz(&quiz_id, lang)
         .map_err(|e: crate::domain::errors::DomainError| e.to_string())
 }
 
@@ -70,8 +74,10 @@ pub fn get_quiz(state: State<'_, AppState>, quiz_id: String) -> Result<QuizDto, 
 pub fn get_navigation(
     state: State<'_, AppState>,
     lesson_id: String,
+    lang: Option<String>,
 ) -> Result<NavigationDto, String> {
-    Ok(state.course_service.get_navigation(&lesson_id))
+    let lang = lang.as_deref().unwrap_or("zh");
+    Ok(state.course_service.get_navigation(&lesson_id, lang))
 }
 
 #[tauri::command]
@@ -96,10 +102,12 @@ pub fn get_user_progress(state: State<'_, AppState>) -> Result<UserProgressDto, 
 #[tauri::command]
 pub fn get_lesson_accessibility(
     state: State<'_, AppState>,
+    lang: Option<String>,
 ) -> Result<Vec<LessonAccessibilityDto>, String> {
+    let lang = lang.as_deref().unwrap_or("zh");
     state
         .learning_service
-        .get_lesson_accessibility()
+        .get_lesson_accessibility(lang)
         .map_err(|e: crate::domain::errors::DomainError| e.to_string())
 }
 
@@ -107,10 +115,12 @@ pub fn get_lesson_accessibility(
 pub fn submit_quiz(
     state: State<'_, AppState>,
     submission: QuizSubmissionDto,
+    lang: Option<String>,
 ) -> Result<QuizResultDto, String> {
+    let lang = lang.as_deref().unwrap_or("zh");
     state
         .quiz_service
-        .submit_quiz(submission)
+        .submit_quiz(submission, lang)
         .map_err(|e: crate::domain::errors::DomainError| e.to_string())
 }
 

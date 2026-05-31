@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { useAI } from "@/hooks/useAI";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface AIChatPanelProps {
   lessonId: string;
@@ -32,8 +34,24 @@ export default function AIChatPanel({
     useAI(lessonId);
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
+  const { language } = useLanguage();
 
-  const systemPrompt = `你是一位经验丰富、充满耐心的音乐理论老师，正在教授一位零基础学生。
+  const systemPrompt = language === "en"
+    ? `You are an experienced and patient music theory teacher, teaching a beginner student.
+
+Current lesson: ${chapterTitle} - ${lessonTitle}
+
+Your teaching style:
+1. Explain concepts in simple, easy-to-understand language, using analogies and examples
+2. Encourage the student, never discourage them
+3. Keep answers concise but complete, avoid overly academic terminology
+4. When discussing pitch, describe as "high/low"; when discussing intervals, suggest using the in-app virtual piano to feel them
+5. If the student asks about current lesson content, answer based on current knowledge points
+6. If the student asks about topics outside the course, answer friendly but suggest they master the current content first
+
+Please answer in English.`
+    : `你是一位经验丰富、充满耐心的音乐理论老师，正在教授一位零基础学生。
 
 当前课程：${chapterTitle} - ${lessonTitle}
 
@@ -60,10 +78,10 @@ export default function AIChatPanel({
   };
 
   const quickQuestions = [
-    "这个概念我还是不太懂，能用更简单的方式解释一下吗？",
-    "这和之前学的知识有什么联系？",
-    "能不能给我举一个生活中的例子？",
-    "我记住了这个知识点，接下来应该学什么？",
+    t("aiChat.quickQuestion1"),
+    t("aiChat.quickQuestion2"),
+    t("aiChat.quickQuestion3"),
+    t("aiChat.quickQuestion4"),
   ];
 
   return (
@@ -78,7 +96,7 @@ export default function AIChatPanel({
             ? "bg-primary text-white hover:bg-primary-dark"
             : "bg-surface-light text-text-muted"
         }`}
-        title="AI 乐理导师"
+        title={t("aiChat.title")}
       >
         {isOpen ? <X className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
       </button>
@@ -97,13 +115,13 @@ export default function AIChatPanel({
             <div className="h-14 flex items-center justify-between px-4 border-b border-surface-light flex-shrink-0">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-primary" />
-                <span className="font-bold text-sm">AI 乐理导师</span>
+                <span className="font-bold text-sm">{t("aiChat.title")}</span>
               </div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => clearHistory(lessonId)}
                   className="p-2 rounded-lg hover:bg-surface-light text-text-muted transition-colors"
-                  title="清空对话"
+                  title={t("aiChat.clearChat")}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -124,25 +142,25 @@ export default function AIChatPanel({
               {!enabled ? (
                 <div className="text-center text-text-muted text-sm mt-10">
                   <Bot className="w-10 h-10 mx-auto mb-3 opacity-30" />
-                  <p className="mb-2">AI 乐理导师尚未启用</p>
+                  <p className="mb-2">{t("aiChat.notEnabled")}</p>
                   <p className="text-xs mb-4">
-                    配置你的 LLM API Key 后，即可与 AI 老师互动学习
+                    {t("aiChat.notEnabledDesc")}
                   </p>
                   <Link
                     to="/settings"
                     className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                   >
                     <Settings className="w-4 h-4" />
-                    去设置
+                    {t("aiChat.goToSettings")}
                   </Link>
                 </div>
               ) : messages.length === 0 ? (
                 <div>
                   <div className="text-center text-text-muted text-sm mb-4">
                     <Bot className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                    <p>我是你的 AI 乐理导师</p>
+                    <p>{t("aiChat.welcome")}</p>
                     <p className="text-xs mt-1">
-                      有任何问题都可以问我，我会结合当前课程内容为你解答
+                      {t("aiChat.welcomeDesc")}
                     </p>
                   </div>
                   <div className="space-y-2">
@@ -190,7 +208,7 @@ export default function AIChatPanel({
                       {msg.content || (
                         <span className="flex items-center gap-1 text-text-muted">
                           <Loader2 className="w-3 h-3 animate-spin" />
-                          思考中...
+                          {t("aiChat.thinking")}
                         </span>
                       )}
                     </div>
@@ -204,7 +222,7 @@ export default function AIChatPanel({
                   </div>
                   <div className="bg-surface-light rounded-xl px-3 py-2 text-sm text-text-muted flex items-center gap-1">
                     <Loader2 className="w-3 h-3 animate-spin" />
-                    思考中...
+                    {t("aiChat.thinking")}
                   </div>
                 </div>
               )}
@@ -219,7 +237,7 @@ export default function AIChatPanel({
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                    placeholder="向 AI 老师提问..."
+                    placeholder={t("aiChat.placeholder")}
                     className="flex-1 bg-surface-light rounded-lg px-3 py-2 text-sm outline-none border border-transparent focus:border-primary text-text placeholder:text-text-muted"
                   />
                   <button

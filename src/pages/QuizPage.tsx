@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, ArrowLeft, RotateCcw, Trophy, BookOpen } from "lucide-react";
 import { getQuiz, submitQuiz as apiSubmitQuiz } from "@/api";
 import type { QuizDto, QuestionDto } from "@/api/types";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/context/LanguageContext";
 
 function isCorrect(question: QuestionDto, answer: string | string[] | null): boolean {
   if (answer === null) return false;
@@ -18,6 +20,8 @@ function isCorrect(question: QuestionDto, answer: string | string[] | null): boo
 export default function QuizPage() {
   const { quizId } = useParams<{ quizId: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { language } = useLanguage();
 
   const [quiz, setQuiz] = useState<QuizDto | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,7 +37,7 @@ export default function QuizPage() {
     if (!quizId) return;
     setLoading(true);
     setError(null);
-    getQuiz(quizId)
+    getQuiz(quizId, language)
       .then((data) => {
         setQuiz(data);
         setLoading(false);
@@ -42,12 +46,12 @@ export default function QuizPage() {
         setError(err instanceof Error ? err.message : String(err));
         setLoading(false);
       });
-  }, [quizId]);
+  }, [quizId, language]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-text-muted">加载中...</div>
+        <div className="text-text-muted">{t("common.loading")}</div>
       </div>
     );
   }
@@ -56,9 +60,9 @@ export default function QuizPage() {
     return (
       <div className="p-10 text-center text-text-muted">
         <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
-        <p>{error || "测验不存在"}</p>
+        <p>{error || t("quiz.quizNotFound")}</p>
         <Link to="/learn" className="text-primary hover:underline mt-2 inline-block">
-          返回课程列表
+          {t("quiz.backToCourses")}
         </Link>
       </div>
     );
@@ -78,7 +82,6 @@ export default function QuizPage() {
   };
 
   const handleNext = async () => {
-    // Save current answer before moving
     if (selected !== null) {
       const currentAnswer = Array.isArray(selected) ? selected : (selected as string);
       setUserAnswers((prev) => ({ ...prev, [question.id]: currentAnswer }));
@@ -90,7 +93,6 @@ export default function QuizPage() {
       setSelected(userAnswers[nextQ.id] ?? null);
       setSubmitted(userAnswers[nextQ.id] !== undefined);
     } else {
-      // Final submission to backend
       if (!quizId) return;
       const submission = {
         quiz_id: quizId,
@@ -100,7 +102,7 @@ export default function QuizPage() {
         })),
       };
       try {
-        await apiSubmitQuiz(submission);
+        await apiSubmitQuiz(submission, language);
       } catch {
         // Backend submission is best-effort for analytics; local state is primary
       }
@@ -141,10 +143,10 @@ export default function QuizPage() {
             <Trophy className={`w-10 h-10 ${passed ? "text-primary" : "text-text-muted"}`} />
           </div>
           <h1 className="text-2xl font-bold mb-2">
-            {passed ? "测验完成！" : "继续加油！"}
+            {passed ? t("quiz.quizComplete") : t("quiz.keepGoing")}
           </h1>
           <p className="text-text-muted mb-6">
-            你答对了 {correctCount} / {total} 题
+            {t("quiz.scoreSummary", { correct: correctCount, total })}
           </p>
           <div className="text-5xl font-bold text-primary mb-8">{score}%</div>
 
@@ -154,14 +156,14 @@ export default function QuizPage() {
               className="inline-flex items-center justify-center gap-2 bg-surface-light hover:bg-surface-light/80 text-text px-5 py-2.5 rounded-lg font-medium transition-colors"
             >
               <RotateCcw className="w-4 h-4" />
-              重新测验
+              {t("quiz.retake")}
             </button>
             <button
               onClick={() => navigate("/learn")}
               className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
             >
               <BookOpen className="w-4 h-4" />
-              返回课程
+              {t("quiz.backToCourses")}
             </button>
           </div>
         </motion.div>
@@ -176,16 +178,16 @@ export default function QuizPage() {
         className="flex items-center gap-2 text-text-muted hover:text-text transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
-        返回课程
+        {t("quiz.backToLesson")}
       </button>
 
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-text-muted">
-            第 {currentIndex + 1} / {total} 题
+            {t("quiz.questionProgress", { current: currentIndex + 1, total })}
           </span>
           <span className="text-sm text-text-muted">
-            已答对 {correctCount} 题
+            {t("quiz.correctCount", { count: correctCount })}
           </span>
         </div>
         <div className="w-full h-2 bg-surface-light rounded-full overflow-hidden">
@@ -231,7 +233,7 @@ export default function QuizPage() {
                       <div className="flex items-center justify-center gap-2">
                         {showCorrect && <CheckCircle2 className="w-5 h-5" />}
                         {showWrong && <XCircle className="w-5 h-5" />}
-                        {val === "true" ? "正确" : "错误"}
+                        {val === "true" ? t("quiz.true") : t("quiz.false")}
                       </div>
                     </button>
                   );
@@ -244,7 +246,7 @@ export default function QuizPage() {
                   value={(selected as string) ?? ""}
                   onChange={(e) => !submitted && setSelected(e.target.value)}
                   disabled={submitted}
-                  placeholder="请输入答案"
+                  placeholder={t("quiz.enterAnswer")}
                   className={`w-full p-4 rounded-xl border-2 bg-transparent outline-none transition-all ${
                     submitted
                       ? isCorrect(question, selected)
@@ -260,8 +262,8 @@ export default function QuizPage() {
                     }`}
                   >
                     {isCorrect(question, selected)
-                      ? "回答正确！"
-                      : `正确答案：${String(question.correct_answer)}`}
+                      ? t("quiz.correct")
+                      : t("quiz.correctAnswer", { answer: String(question.correct_answer) })}
                   </div>
                 )}
               </div>
@@ -335,7 +337,7 @@ export default function QuizPage() {
                 animate={{ opacity: 1, height: "auto" }}
                 className="mt-6 p-4 bg-primary/10 rounded-xl border border-primary/20"
               >
-                <div className="font-bold text-primary mb-1">解析</div>
+                <div className="font-bold text-primary mb-1">{t("quiz.explanation")}</div>
                 <div className="text-sm text-text">{question.explanation}</div>
               </motion.div>
             )}
@@ -348,14 +350,14 @@ export default function QuizPage() {
                 disabled={selected === null || (Array.isArray(selected) && selected.length === 0)}
                 className="bg-primary hover:bg-primary-dark disabled:opacity-40 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
               >
-                提交答案
+                {t("common.submit")}
               </button>
             ) : (
               <button
                 onClick={handleNext}
                 className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
               >
-                {currentIndex < total - 1 ? "下一题" : "查看结果"}
+                {currentIndex < total - 1 ? t("common.next") : t("common.viewResults")}
               </button>
             )}
           </div>

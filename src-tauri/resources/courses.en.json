@@ -1,0 +1,1572 @@
+{
+  "id": "music-theory-fundamentals",
+  "title": "Music Theory Fundamentals",
+  "description": "A systematic introduction to music theory from scratch, covering notes, rhythm, scales, intervals, chords and more. After completing this course, you'll have a solid foundation in music theory, making it much easier to learn any instrument.",
+  "chapters": [
+    {
+      "id": "ch1",
+      "title": "Chapter 1: Introduction to Music",
+      "description": "Understand the basic building blocks of music and learn about notes and rhythm",
+      "icon": "Music",
+      "order": 1,
+      "lessons": [
+        {
+          "id": "l1-1",
+          "order": 1,
+          "title": "What is Music?",
+          "subtitle": "The nature and properties of sound",
+          "content": [
+            "Music is an art form created by organizing sounds. To understand music, we must first understand the nature of 'sound'.",
+            "How sound is produced: When an object vibrates, it creates sound waves. These waves travel to our ears, and we perceive them as sound. In music, we use sounds with definite pitch, which we call 'musical tones'.",
+            "Musical tones have four basic properties:\n\n1. Pitch: Determined by vibration frequency — the higher the frequency, the higher the pitch\n2. Duration: How long a sound lasts\n3. Volume (Intensity): Determined by amplitude — the larger the amplitude, the louder the sound\n4. Timbre: Determined by the material of the sound source and its overtones, allowing us to distinguish a piano from a violin",
+            "Music creates rich and varied auditory effects through the combination and variation of these four elements."
+          ],
+          "tips": [
+            "Try clapping your hands: rapid clapping keeps the pitch the same, but you can vary the force (volume) and spacing (rhythm)",
+            "Open a piano app on your phone and press different keys to feel how pitch changes"
+          ],
+          "quiz": {
+            "id": "q1-1",
+            "title": "What is Music? - Quiz",
+            "questions": [
+              {
+                "id": "q1-1-1",
+                "type": "single",
+                "question": "What is the term for sounds with definite pitch used in music?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Noise"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Musical tone"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Harmony"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Overtone"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "Musical tones have definite pitch, like those from piano or violin; noise has no definite pitch, like clapping."
+              },
+              {
+                "id": "q1-1-2",
+                "type": "multi",
+                "question": "Which are the four basic properties of musical tone? (Multiple choice)",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Pitch"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Duration"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Volume"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Timbre"
+                  }
+                ],
+                "correctAnswer": [
+                  "a",
+                  "b",
+                  "c",
+                  "d"
+                ],
+                "explanation": "The four properties of musical tone: Pitch, Duration, Intensity, and Timbre — all are essential."
+              },
+              {
+                "id": "q1-1-3",
+                "type": "single",
+                "question": "What determines the pitch of a sound?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Amplitude"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Vibration frequency"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Sound-producing material"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Duration"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "Vibration frequency determines pitch: higher frequency = higher pitch; lower frequency = lower pitch. Amplitude determines volume."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l1-2",
+          "order": 2,
+          "title": "Notes and Rests",
+          "subtitle": "The written language of music",
+          "content": [
+            "Notes are symbols that record pitch and duration. Different note shapes represent different durations.",
+            "Basic notes from longest to shortest are:\n\n• Whole note (𝅗𝅥) = 4 beats\n• Half note (𝅗𝅥) = 2 beats\n• Quarter note (𝅘𝅥) = 1 beat\n• Eighth note (𝅘𝅥𝅮) = 1/2 beat\n• Sixteenth note (𝅘𝅥𝅯) = 1/4 beat",
+            "Relationships between notes: Each shorter note is half of the previous one. A dot (.) extends the original note by half its value. For example: Dotted quarter note = quarter note + eighth note = 1.5 beats",
+            "Rests indicate silence. For every note duration, there is a corresponding rest duration:\n\n• Whole rest = 4 beats\n• Half rest = 2 beats\n• Quarter rest = 1 beat\n• Eighth rest = 1/2 beat"
+          ],
+          "tips": [
+            "Practice tapping beats while saying 'ta': whole note = 'ta———', quarter note = 'ta'",
+            "Remember the mnemonic: Whole, Half, Eighth, Sixteenth — each level cuts the duration in half"
+          ],
+          "quiz": {
+            "id": "q1-2",
+            "title": "Notes and Rests - Quiz",
+            "questions": [
+              {
+                "id": "q1-2-1",
+                "type": "single",
+                "question": "How many quarter notes equal one whole note?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "2"
+                  },
+                  {
+                    "id": "b",
+                    "text": "4"
+                  },
+                  {
+                    "id": "c",
+                    "text": "8"
+                  },
+                  {
+                    "id": "d",
+                    "text": "16"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "A whole note = 4 beats, a quarter note = 1 beat, so a whole note = 4 quarter notes."
+              },
+              {
+                "id": "q1-2-2",
+                "type": "single",
+                "question": "What is the duration of a dotted quarter note?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "1 beat"
+                  },
+                  {
+                    "id": "b",
+                    "text": "1.5 beats"
+                  },
+                  {
+                    "id": "c",
+                    "text": "2 beats"
+                  },
+                  {
+                    "id": "d",
+                    "text": "0.5 beat"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "A dot extends the original note by half its value: quarter note 1 beat + half (0.5 beat) = 1.5 beats."
+              },
+              {
+                "id": "q1-2-3",
+                "type": "truefalse",
+                "question": "Rests are also an essential and indispensable part of music.",
+                "correctAnswer": "true",
+                "explanation": "Correct! Rests give music breathing room and pauses — the art of 'silence speaks louder than words.'"
+              }
+            ]
+          }
+        },
+        {
+          "id": "l1-3",
+          "order": 3,
+          "title": "Beat and Rhythm",
+          "subtitle": "The skeleton of music",
+          "content": [
+            "Beat is the steady, repeating pulse in music, like a heartbeat. We group beats according to strong-weak patterns, forming 'measures' (or bars).",
+            "Common time signatures:\n\n• 2/4: Quarter note gets one beat, 2 beats per measure. Pattern: Strong Weak\n• 3/4: Quarter note gets one beat, 3 beats per measure. Pattern: Strong Weak Weak (waltz)\n• 4/4: Quarter note gets one beat, 4 beats per measure. Pattern: Strong Weak Medium Weak (most common)",
+            "Rhythm is the combination of note lengths. The same notes can be organized with different rhythmic patterns to create different feelings.",
+            "Common rhythmic patterns:\n\n• Even: ♩ ♩ ♩ ♩ (march style)\n• Dotted: ♩. ♪ ♩. ♪ (swing feel)\n• Syncopated: ♪ ♩ ♪ (emphasis on weak beats, driving feel)"
+          ],
+          "tips": [
+            "Try counting beats while walking: 1-2-3-4, with the strong beat on your left foot",
+            "Listen to a pop song and try tapping a steady beat to feel the 4/4 pattern"
+          ],
+          "quiz": {
+            "id": "q1-3",
+            "title": "Beat and Rhythm - Quiz",
+            "questions": [
+              {
+                "id": "q1-3-1",
+                "type": "single",
+                "question": "How many beats per measure in 4/4 time?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "2 beats"
+                  },
+                  {
+                    "id": "b",
+                    "text": "3 beats"
+                  },
+                  {
+                    "id": "c",
+                    "text": "4 beats"
+                  },
+                  {
+                    "id": "d",
+                    "text": "8 beats"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "In 4/4 time, the top number '4' means 4 beats per measure — the most common time signature."
+              },
+              {
+                "id": "q1-3-2",
+                "type": "single",
+                "question": "What time signature is typically used for waltz?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "2/4 time"
+                  },
+                  {
+                    "id": "b",
+                    "text": "3/4 time"
+                  },
+                  {
+                    "id": "c",
+                    "text": "4/4 time"
+                  },
+                  {
+                    "id": "d",
+                    "text": "6/8 time"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "3/4 time has 3 beats per measure with a Strong-Weak-Weak pattern, creating a swaying feel — the hallmark of waltz."
+              },
+              {
+                "id": "q1-3-3",
+                "type": "truefalse",
+                "question": "Beat and rhythm are the same concept.",
+                "correctAnswer": "false",
+                "explanation": "Incorrect! Beat is a steady pulse (like a heartbeat); rhythm is the combination of note lengths. Rhythm relies on beat, but they are different."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ch2",
+      "title": "Chapter 2: Pitch and Scales",
+      "description": "Learn letter names and solfège, master major and minor scales",
+      "icon": "Piano",
+      "order": 2,
+      "lessons": [
+        {
+          "id": "l2-1",
+          "order": 1,
+          "title": "Letter Names and Solfège",
+          "subtitle": "do re mi fa sol la si",
+          "content": [
+            "There are two naming systems in music: letter names and solfège.",
+            "Letter Names: Use the English letters C D E F G A B to represent fixed pitches. This is the internationally standardized naming system.\n\n• C = do\n• D = re\n• E = mi\n• F = fa\n• G = sol\n• A = la\n• B = si (European/American system) / ti (some systems)",
+            "Solfège: do re mi fa sol la si, used for sight-singing and relative pitch training. There are two systems:\n\n1. Fixed-do: do always equals C, corresponding one-to-one with letter names\n2. Movable-do: do equals the tonic of the key, applicable to different keys",
+            "For beginners, it's recommended to first master the correspondence between letter names and solfège. Piano white keys from left to right are: C D E F G A B, then repeating."
+          ],
+          "tips": [
+            "Use 'Do-Re-Mi' from The Sound of Music to memorize the solfège order",
+            "The C in the middle of the piano is called 'Middle C' — the dividing line of the piano"
+          ],
+          "quiz": {
+            "id": "q2-1",
+            "title": "Letter Names and Solfège - Quiz",
+            "questions": [
+              {
+                "id": "q2-1-1",
+                "type": "single",
+                "question": "What is the letter name corresponding to solfège 'sol'?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "C"
+                  },
+                  {
+                    "id": "b",
+                    "text": "D"
+                  },
+                  {
+                    "id": "c",
+                    "text": "E"
+                  },
+                  {
+                    "id": "d",
+                    "text": "G"
+                  }
+                ],
+                "correctAnswer": "d",
+                "explanation": "G = sol, F = fa, E = mi — this correspondence must be memorized."
+              },
+              {
+                "id": "q2-1-2",
+                "type": "single",
+                "question": "What is the order of letter names on the piano white keys?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "A B C D E F G"
+                  },
+                  {
+                    "id": "b",
+                    "text": "C D E F G A B"
+                  },
+                  {
+                    "id": "c",
+                    "text": "D E F G A B C"
+                  },
+                  {
+                    "id": "d",
+                    "text": "E F G A B C D"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "Piano white keys cycle from C: C D E F G A B. The black keys between white keys represent semitones."
+              },
+              {
+                "id": "q2-1-3",
+                "type": "truefalse",
+                "question": "In movable-do, the pitch of do changes with the key.",
+                "correctAnswer": "true",
+                "explanation": "Correct! In movable-do, do always equals the tonic of the key. For example, in G major, do = G; in F major, do = F."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-2",
+          "order": 2,
+          "title": "Semitones and Whole Tones",
+          "subtitle": "The basic steps of scales",
+          "content": [
+            "On the piano, the distance between adjacent keys (including white and black keys) is a 'semitone' (half step). Two semitones equal one 'whole tone' (whole step).",
+            "Observe the piano keyboard:\n\n• E-F has no black key between them = semitone\n• B-C has no black key between them = semitone\n• All other adjacent white keys have a black key between them = whole tone",
+            "Remember this pattern:\n\nC-D whole | D-E whole | E-F half | F-G whole | G-A whole | A-B whole | B-C half",
+            "Semitones and whole tones are the foundation for building scales. Understanding them allows you to derive the scale of any key."
+          ],
+          "tips": [
+            "Remember: 'E-F and B-C are neighbors (half step); everything else is separated by one (whole step)'",
+            "Play E-F and C-D repeatedly on the piano to feel the difference between semitones and whole tones"
+          ],
+          "quiz": {
+            "id": "q2-2",
+            "title": "Semitones and Whole Tones - Quiz",
+            "questions": [
+              {
+                "id": "q2-2-1",
+                "type": "single",
+                "question": "How many semitones is C to D on the piano?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "1 semitone"
+                  },
+                  {
+                    "id": "b",
+                    "text": "2 semitones (1 whole tone)"
+                  },
+                  {
+                    "id": "c",
+                    "text": "3 semitones"
+                  },
+                  {
+                    "id": "d",
+                    "text": "4 semitones"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "C and D have a black key (C#/Db) between them, so C-D = 2 semitones = 1 whole tone."
+              },
+              {
+                "id": "q2-2-2",
+                "type": "single",
+                "question": "Which pair of notes forms a semitone relationship?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "C - D"
+                  },
+                  {
+                    "id": "b",
+                    "text": "D - E"
+                  },
+                  {
+                    "id": "c",
+                    "text": "E - F"
+                  },
+                  {
+                    "id": "d",
+                    "text": "F - G"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "E-F and B-C have no black key between them, so they are semitone relationships. All other adjacent white keys are whole tones apart."
+              },
+              {
+                "id": "q2-2-3",
+                "type": "fillblank",
+                "question": "Two _____ equal one whole tone.",
+                "correctAnswer": "Semitone",
+                "explanation": "1 whole tone = 2 semitones — the basic unit of scale calculation."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-3",
+          "order": 3,
+          "title": "Major Scale",
+          "subtitle": "The standard scale of music",
+          "content": [
+            "The Major Scale is the most fundamental scale in Western music. It sounds bright and open. Its interval structure is fixed:\n\nWhole - Whole - Half - Whole - Whole - Whole - Half\n(W-W-H-W-W-W-H)",
+            "Using C major as an example (no sharps or flats):\n\nC(tonic) → D(whole) → E(whole) → F(half) → G(whole) → A(whole) → B(whole) → C(half)\n\nThat is: C D E F G A B C",
+            "Each note of the major scale has a specific functional name:\n\n• 1st degree (I): Tonic - the most stable note\n• 2nd degree (II): Supertonic\n• 3rd degree (III): Mediant\n• 4th degree (IV): Subdominant\n• 5th degree (V): Dominant - strongly pulls toward the tonic\n• 6th degree (VI): Submediant\n• 7th degree (VII): Leading Tone - strongly pulls toward the tonic\n• 8th degree: Upper tonic",
+            "Once you master the major scale, you can use the same interval structure to derive the major scale of any key. For example, G major: G A B C D E F# G"
+          ],
+          "tips": [
+            "Use the mnemonic 'Whole-Whole-Half-Whole-Whole-Whole-Half' to memorize the major scale structure",
+            "Play C major and G major on the piano to feel their shared 'major quality'"
+          ],
+          "quiz": {
+            "id": "q2-3",
+            "title": "Major Scale - Quiz",
+            "questions": [
+              {
+                "id": "q2-3-1",
+                "type": "single",
+                "question": "What is the interval structure of the major scale?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "W-H-W-W-H-W-W"
+                  },
+                  {
+                    "id": "b",
+                    "text": "W-W-H-W-W-W-H"
+                  },
+                  {
+                    "id": "c",
+                    "text": "H-W-W-H-W-W-W"
+                  },
+                  {
+                    "id": "d",
+                    "text": "W-W-W-H-W-W-H"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "Major scale: W-W-H-W-W-W-H. Remember 'two wholes, a half in the middle, three wholes after, and a half at the end.'"
+              },
+              {
+                "id": "q2-3-2",
+                "type": "single",
+                "question": "What is the 5th degree (dominant) of the C major scale?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "C"
+                  },
+                  {
+                    "id": "b",
+                    "text": "D"
+                  },
+                  {
+                    "id": "c",
+                    "text": "E"
+                  },
+                  {
+                    "id": "d",
+                    "text": "G"
+                  }
+                ],
+                "correctAnswer": "d",
+                "explanation": "C major: C(1) D(2) E(3) F(4) G(5) A(6) B(7). The 5th degree is G, called the 'dominant'."
+              },
+              {
+                "id": "q2-3-3",
+                "type": "single",
+                "question": "Which note needs to be raised in the G major scale?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "F"
+                  },
+                  {
+                    "id": "b",
+                    "text": "C"
+                  },
+                  {
+                    "id": "c",
+                    "text": "F"
+                  },
+                  {
+                    "id": "d",
+                    "text": "F#"
+                  }
+                ],
+                "correctAnswer": "d",
+                "explanation": "G major: G A B C D E F# G. Following W-W-H-W-W-W-H, E-F is normally a semitone, but here a whole tone is needed, so F is raised to F#."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2-4",
+          "order": 4,
+          "title": "Minor Scale",
+          "subtitle": "Melancholic and deeply emotional colors",
+          "content": [
+            "The Minor Scale sounds darker and sadder than major, but can also be deeply emotional. There are three common forms:",
+            "Natural Minor:\nWhole - Half - Whole - Whole - Half - Whole - Whole\n(W-H-W-W-H-W-W)\n\nUsing A natural minor as an example: A B C D E F G A",
+            "Harmonic Minor:\nRaise the 7th degree of natural minor by a semitone\n\nUsing A harmonic minor as an example: A B C D E F G# A\nCharacteristic: The 7th degree to tonic is a semitone, giving the leading tone a stronger pull",
+            "Melodic Minor:\nAscending: raise the 6th and 7th degrees; descending: return to natural minor\n\nAscending: A B C D E F# G# A\nDescending: A G F E D C B A",
+            "Relative keys: Every major key has a relative minor key that shares the same key signature. To find it: go down a minor third from the major tonic.\n\nFor example: The relative minor of C major is A minor (C → B → A); the relative minor of G major is E minor."
+          ],
+          "tips": [
+            "Listen to a sad song and a happy song to compare the emotional colors of minor and major",
+            "Relative keys are like siblings — they share a home (key signature) but have different personalities (tonics)"
+          ],
+          "quiz": {
+            "id": "q2-4",
+            "title": "Minor Scale - Quiz",
+            "questions": [
+              {
+                "id": "q2-4-1",
+                "type": "single",
+                "question": "What is the interval structure of natural minor?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "W-W-H-W-W-W-H"
+                  },
+                  {
+                    "id": "b",
+                    "text": "W-H-W-W-H-W-W"
+                  },
+                  {
+                    "id": "c",
+                    "text": "H-W-W-H-W-W-W"
+                  },
+                  {
+                    "id": "d",
+                    "text": "W-W-H-W-H-W-W"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "Natural minor: W-H-W-W-H-W-W. Compared to major, the 3rd and 6th degrees of minor are lowered by a semitone."
+              },
+              {
+                "id": "q2-4-2",
+                "type": "single",
+                "question": "What is the relative minor of C major?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "E minor"
+                  },
+                  {
+                    "id": "b",
+                    "text": "D minor"
+                  },
+                  {
+                    "id": "c",
+                    "text": "A minor"
+                  },
+                  {
+                    "id": "d",
+                    "text": "G minor"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "Go down a minor third from the major tonic: C → B → A, so the relative minor of C major is A minor."
+              },
+              {
+                "id": "q2-4-3",
+                "type": "truefalse",
+                "question": "The characteristic of harmonic minor is that the 7th degree is raised by a semitone.",
+                "correctAnswer": "true",
+                "explanation": "Correct! Harmonic minor raises the 7th degree of natural minor by a semitone, making the leading tone to tonic a semitone, creating more natural harmonic progressions."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ch3",
+      "title": "Chapter 3: Intervals and Chords",
+      "description": "Master interval calculation and chord construction",
+      "icon": "AudioLines",
+      "order": 3,
+      "lessons": [
+        {
+          "id": "l3-1",
+          "order": 1,
+          "title": "Interval Fundamentals",
+          "subtitle": "The distance between two notes",
+          "content": [
+            "An interval is the distance between two notes. Calculating intervals requires two dimensions: degree and size.",
+            "Degree: The count of letter names (including the starting and ending notes).\n\n• C-C = unison\n• C-D = 2nd\n• C-E = 3rd\n• C-F = 4th\n• C-G = 5th\n• C-A = 6th\n• C-B = 7th\n• C-high C = octave",
+            "Intervals classified by quality:\n\n• Perfect: unison, 4th, 5th, octave\n• Major: 2nd, 3rd, 6th, 7th\n• Minor: one semitone smaller than major\n• Augmented: one semitone larger than perfect or major\n• Diminished: one semitone smaller than perfect or minor",
+            "Common intervals (with C as the root):\n\n• Perfect unison: C-C (0 semitones)\n• Minor 2nd: C-Db (1 semitone)\n• Major 2nd: C-D (2 semitones)\n• Minor 3rd: C-Eb (3 semitones)\n• Major 3rd: C-E (4 semitones)\n• Perfect 4th: C-F (5 semitones)\n• Tritone/Augmented 4th: C-F# (6 semitones)\n• Perfect 5th: C-G (7 semitones)\n• Minor 6th: C-Ab (8 semitones)\n• Major 6th: C-A (9 semitones)\n• Minor 7th: C-Bb (10 semitones)\n• Major 7th: C-B (11 semitones)\n• Perfect octave: C-high C (12 semitones)"
+          ],
+          "tips": [
+            "First calculate the degree (count letters), then count semitones to determine quality",
+            "The perfect 5th (7 semitones) and perfect 4th (5 semitones) are the foundation of harmony, together making exactly one octave (12 semitones)"
+          ],
+          "quiz": {
+            "id": "q3-1",
+            "title": "Interval Fundamentals - Quiz",
+            "questions": [
+              {
+                "id": "q3-1-1",
+                "type": "single",
+                "question": "What interval is C to E?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Minor 2nd"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Major 2nd"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Minor 3rd"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Major 3rd"
+                  }
+                ],
+                "correctAnswer": "d",
+                "explanation": "C to E: degree is 3rd (C-D-E), semitones are 4 (C-C#-D-D#-E), so it's a major 3rd."
+              },
+              {
+                "id": "q3-1-2",
+                "type": "single",
+                "question": "How many semitones does a perfect 5th contain?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "5"
+                  },
+                  {
+                    "id": "b",
+                    "text": "6"
+                  },
+                  {
+                    "id": "c",
+                    "text": "7"
+                  },
+                  {
+                    "id": "d",
+                    "text": "8"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "Perfect 5th = 7 semitones. Example: C-G: C-C#-D-D#-E-F-F#-G, total 7 semitones."
+              },
+              {
+                "id": "q3-1-3",
+                "type": "multi",
+                "question": "Which of the following are 'perfect intervals'? (Multiple choice)",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Unison"
+                  },
+                  {
+                    "id": "b",
+                    "text": "4th"
+                  },
+                  {
+                    "id": "c",
+                    "text": "5th"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Octave"
+                  }
+                ],
+                "correctAnswer": [
+                  "a",
+                  "b",
+                  "c",
+                  "d"
+                ],
+                "explanation": "Perfect intervals include: unison, 4th, 5th, octave. 2nd, 3rd, 6th, and 7th only have major and minor qualities."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3-2",
+          "order": 2,
+          "title": "Triads",
+          "subtitle": "Harmonious combination of three notes",
+          "content": [
+            "A chord is a combination of three or more notes sounding simultaneously. A triad is the most basic chord, built by stacking thirds.",
+            "Triad structure:\n\nRoot → Third → Fifth\n(A third above the root, then another third above that)",
+            "Four basic triads:\n\n• Major triad: major 3rd + minor 3rd\n  Example: C-E-G (C major, written as C or Cmaj)\n  Color: bright, stable\n\n• Minor triad: minor 3rd + major 3rd\n  Example: C-Eb-G (C minor, written as Cm or Cmin)\n  Color: sad, soft\n\n• Augmented triad: major 3rd + major 3rd\n  Example: C-E-G# (C augmented, written as Caug or C+)\n  Color: tense, expanding\n\n• Diminished triad: minor 3rd + minor 3rd\n  Example: C-Eb-Gb (C diminished, written as Cdim or C°)\n  Color: suspenseful, contracting",
+            "Memory aid:\nMajor+minor = major, minor+major = minor,\nMajor+major = augmented, minor+minor = diminished."
+          ],
+          "tips": [
+            "Press C-E-G (major) and C-Eb-G (minor) simultaneously on the piano to compare their colors",
+            "All triads can be analyzed as 'root + quality of third + quality of fifth'"
+          ],
+          "quiz": {
+            "id": "q3-2",
+            "title": "Triads - Quiz",
+            "questions": [
+              {
+                "id": "q3-2-1",
+                "type": "single",
+                "question": "What chord is C-E-G?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "C minor triad"
+                  },
+                  {
+                    "id": "b",
+                    "text": "C major triad"
+                  },
+                  {
+                    "id": "c",
+                    "text": "C augmented triad"
+                  },
+                  {
+                    "id": "d",
+                    "text": "C diminished triad"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "C-E is a major 3rd (4 semitones), E-G is a minor 3rd (3 semitones). Major 3rd + minor 3rd = major triad."
+              },
+              {
+                "id": "q3-2-2",
+                "type": "single",
+                "question": "What is the interval structure of a minor triad?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Major 3rd + major 3rd"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Major 3rd + minor 3rd"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Minor 3rd + major 3rd"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Minor 3rd + minor 3rd"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "Minor triad = minor 3rd + major 3rd. Example: Cm: C-Eb (minor 3rd) + Eb-G (major 3rd)."
+              },
+              {
+                "id": "q3-2-3",
+                "type": "single",
+                "question": "What is the interval structure of a diminished triad?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Major 3rd + minor 3rd"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Minor 3rd + major 3rd"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Major 3rd + major 3rd"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Minor 3rd + minor 3rd"
+                  }
+                ],
+                "correctAnswer": "d",
+                "explanation": "Diminished triad = minor 3rd + minor 3rd. Example: Cdim: C-Eb (minor 3rd) + Eb-Gb (minor 3rd)."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3-3",
+          "order": 3,
+          "title": "Seventh Chords and Inversions",
+          "subtitle": "Richer harmonic colors",
+          "content": [
+            "A seventh chord adds another third on top of a triad, creating a four-note chord. The distance from root to top note is a 7th, hence the name.",
+            "Common seventh chords:\n\n• Major 7th: major triad + major 7th\n  Example: C-E-G-B (written as Cmaj7 or C△7)\n  Color: bright, open, jazzy\n\n• Dominant 7th: major triad + minor 7th\n  Example: C-E-G-Bb (written as C7)\n  Color: tense, needs resolution, bluesy\n  Note: This is the most commonly used seventh chord!\n\n• Minor 7th: minor triad + minor 7th\n  Example: C-Eb-G-Bb (written as Cm7 or Cmin7)\n  Color: soft, introspective\n\n• Half-diminished 7th: diminished triad + minor 7th\n  Example: C-Eb-Gb-Bb (written as Cø7 or Cm7b5)\n  Color: suspenseful, transitional",
+            "Inversion: Changing the lowest note of a chord to a different chord tone, altering the bass position without changing the chord quality.\n\n• Root position: root is the lowest note\n• 1st inversion: third is the lowest note\n• 2nd inversion: fifth is the lowest note\n• 3rd inversion (seventh chords): seventh is the lowest note",
+            "Inversion notation (figured bass):\n• Root position: C\n• 1st inversion: C/E (slash chord, C chord with E in the bass)\n• 2nd inversion: C/G"
+          ],
+          "tips": [
+            "The dominant 7th chord (C7) is the core of pop music and blues — make sure to master it",
+            "Inversions don't change chord quality, but they change the bass line, making harmonic progressions smoother"
+          ],
+          "quiz": {
+            "id": "q3-3",
+            "title": "Seventh Chords and Inversions - Quiz",
+            "questions": [
+              {
+                "id": "q3-3-1",
+                "type": "single",
+                "question": "What chord is C-E-G-Bb?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "C major 7th"
+                  },
+                  {
+                    "id": "b",
+                    "text": "C dominant 7th"
+                  },
+                  {
+                    "id": "c",
+                    "text": "C minor 7th"
+                  },
+                  {
+                    "id": "d",
+                    "text": "C diminished 7th"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "C-E-G is a major triad, C-Bb is a minor 7th (10 semitones). Major triad + minor 7th = dominant 7th chord C7."
+              },
+              {
+                "id": "q3-3-2",
+                "type": "single",
+                "question": "What does C/E mean?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "C chord inversion, E as the lowest note"
+                  },
+                  {
+                    "id": "b",
+                    "text": "E chord inversion, C as the lowest note"
+                  },
+                  {
+                    "id": "c",
+                    "text": "C and E chords played simultaneously"
+                  },
+                  {
+                    "id": "d",
+                    "text": "C major / E minor modulation"
+                  }
+                ],
+                "correctAnswer": "a",
+                "explanation": "In a slash chord, the part before the slash is the chord name, and after is the bass note. C/E = C major chord in first inversion."
+              },
+              {
+                "id": "q3-3-3",
+                "type": "multi",
+                "question": "Which of the following are seventh chords? (Multiple choice)",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Major 7th"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Dominant 7th"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Minor 7th"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Half-diminished 7th"
+                  }
+                ],
+                "correctAnswer": [
+                  "a",
+                  "b",
+                  "c",
+                  "d"
+                ],
+                "explanation": "These are all different types of seventh chords, formed by adding a 7th on top of a triad."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ch4",
+      "title": "Chapter 4: Keys and Tonality",
+      "description": "Understand key signatures and the relationships between keys",
+      "icon": "CircleDot",
+      "order": 4,
+      "lessons": [
+        {
+          "id": "l4-1",
+          "order": 1,
+          "title": "Key Signatures",
+          "subtitle": "Patterns of Sharps and Flats",
+          "content": [
+            "The key signature is written after the clef, indicating which notes are consistently raised or lowered in that key.",
+            "Sharp keys: Sharps accumulate in the order FCGDAEB\n\n• 0 sharps: C major / A minor\n• 1 sharp (F#): G major / E minor\n• 2 sharps (F# C#): D major / B minor\n• 3 sharps (F# C# G#): A major / F# minor\n• 4 sharps (F# C# G# D#): E major / C# minor\n• 5 sharps: B major / G# minor\n• 6 sharps: F# major / D# minor\n• 7 sharps: C# major / A# minor",
+            "Flat keys: Flats accumulate in the order BEADGCF (reverse of sharps)\n\n• 0 flats: C major / A minor\n• 1 flat (Bb): F major / D minor\n• 2 flats (Bb Eb): Bb major / G minor\n• 3 flats (Bb Eb Ab): Eb major / C minor\n• 4 flats: Ab major / F minor\n• 5 flats: Db major / Bb minor\n• 6 flats: Gb major / Eb minor\n• 7 flats: Cb major / Ab minor",
+            "Quick method to find key names:\n\n• Sharp keys: a semitone above the last sharp = major tonic\n  Example: F# C# G# → last sharp is G#, a semitone above is A → A major\n\n• Flat keys: second-to-last flat = major tonic (1 flat = F major)\n  Example: Bb Eb Ab Db → second-to-last flat is Ab → Ab major"
+          ],
+          "tips": [
+            "Remember: 'Five sharps and six flats are the limit; seven of either are enharmonic equivalents'",
+            "Sharp order: Father Charles Goes Down And Ends Battle\nFlat order: Battle Ends And Down Goes Charles' Father"
+          ],
+          "quiz": {
+            "id": "q4-1",
+            "title": "Key Signatures - Quiz",
+            "questions": [
+              {
+                "id": "q4-1-1",
+                "type": "single",
+                "question": "What major key has 3 sharps (F# C# G#) in its key signature?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "D major"
+                  },
+                  {
+                    "id": "b",
+                    "text": "E major"
+                  },
+                  {
+                    "id": "c",
+                    "text": "A major"
+                  },
+                  {
+                    "id": "d",
+                    "text": "G major"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "The last sharp is G#, a semitone above is A, so it's A major."
+              },
+              {
+                "id": "q4-1-2",
+                "type": "single",
+                "question": "How many flats are in the key signature of F major?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "0"
+                  },
+                  {
+                    "id": "b",
+                    "text": "1"
+                  },
+                  {
+                    "id": "c",
+                    "text": "2"
+                  },
+                  {
+                    "id": "d",
+                    "text": "3"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "F major has 1 flat (Bb). This is the only flat key where the 'second-to-last' method doesn't apply."
+              },
+              {
+                "id": "q4-1-3",
+                "type": "fillblank",
+                "question": "The order of sharps is F-C-G-D-A-E-_____.",
+                "correctAnswer": "B",
+                "explanation": "Sharp key order: FCGDAEB. Remember: Father Charles Goes Down And Ends Battle."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l4-2",
+          "order": 2,
+          "title": "Circle of Fifths",
+          "subtitle": "A map of the relationships between keys",
+          "content": [
+            "The Circle of Fifths is one of the most important tools in music theory. It shows the relationships between all keys.",
+            "Clockwise: each step adds one sharp (perfect 5th ascending)\nC → G (1#) → D (2#) → A (3#) → E (4#) → B (5#) → F# (6#) → C# (7#)",
+            "Counter-clockwise: each step adds one flat (perfect 5th descending / perfect 4th ascending)\nC → F (1b) → Bb (2b) → Eb (3b) → Ab (4b) → Db (5b) → Gb (6b) → Cb (7b)",
+            "Uses of the circle of fifths:\n\n1. Quickly find key signatures\n2. Find closely related keys (adjacent keys share the most common chords)\n3. Find relative major/minor keys (inner and outer circles correspond)\n4. Understand harmonic progressions (like ii-V-I, which appears on the circle)\n5. Choose bridges for modulation",
+            "Closely related keys: Keys that are no more than one position apart on the circle of fifths.\n\nFor example, closely related keys of C major: G major, F major, A minor, E minor, D minor."
+          ],
+          "tips": [
+            "Draw a circle of fifths and put it on your wall. Review it daily, and you'll memorize it in a week",
+            "The circle of fifths clockwise ascends by perfect 5ths; counter-clockwise descends by perfect 5ths"
+          ],
+          "quiz": {
+            "id": "q4-2",
+            "title": "Circle of Fifths - Quiz",
+            "questions": [
+              {
+                "id": "q4-2-1",
+                "type": "single",
+                "question": "On the circle of fifths, what is the next key clockwise from C major?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "F major"
+                  },
+                  {
+                    "id": "b",
+                    "text": "G major"
+                  },
+                  {
+                    "id": "c",
+                    "text": "D major"
+                  },
+                  {
+                    "id": "d",
+                    "text": "A major"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "Clockwise ascends by perfect 5ths: C → G (perfect 5th), G major adds one sharp."
+              },
+              {
+                "id": "q4-2-2",
+                "type": "single",
+                "question": "Where is the relative minor of C major on the circle of fifths?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Inner circle of C major"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Outer circle of C major"
+                  },
+                  {
+                    "id": "c",
+                    "text": "1 position clockwise from C major"
+                  },
+                  {
+                    "id": "d",
+                    "text": "1 position counter-clockwise from C major"
+                  }
+                ],
+                "correctAnswer": "a",
+                "explanation": "The circle of fifths is usually drawn with two circles: the outer circle shows major keys, the inner shows their relative minors. The inner circle of C major is A minor."
+              },
+              {
+                "id": "q4-2-3",
+                "type": "multi",
+                "question": "What are the uses of the circle of fifths? (Multiple choice)",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Find key signature"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Find closely related keys"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Understand harmonic progressions"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Determine tempo"
+                  }
+                ],
+                "correctAnswer": [
+                  "a",
+                  "b",
+                  "c"
+                ],
+                "explanation": "The circle of fifths is unrelated to tempo. It's a map of tonal relationships, used for key signatures, closely related keys, harmonic analysis, etc."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ch5",
+      "title": "Chapter 5: Sight-Reading and Synthesis",
+      "description": "Staff Notation Basics and Comprehensive Application",
+      "icon": "BookOpen",
+      "order": 5,
+      "lessons": [
+        {
+          "id": "l5-1",
+          "order": 1,
+          "title": "Staff Notation Basics",
+          "subtitle": "The written language of music",
+          "content": [
+            "The staff consists of five parallel horizontal lines and four spaces, counted from bottom to top: line 1, space 1, line 2, space 2...",
+            "The clef determines what pitch each line and space represents:\n\n• Treble clef (G clef, 𝄞): 2nd line is G (sol)\n  Used for: violin, flute, piano right hand, soprano voice\n\n• Bass clef (F clef, 𝄢): 4th line is F (fa)\n  Used for: cello, double bass, piano left hand, bass voice\n\n• Alto clef (C clef, 𝄡): middle line is middle C\n  Used for: viola",
+            "Notes on the treble clef (from bottom to top):\n\nLines: E (line 1) G (line 2) B (line 3) D (line 4) F (line 5)\nSpaces: F (space 1) A (space 2) C (space 3) E (space 4)\n\nMemory aids:\nLines: Every Good Boy Deserves Favour (E-G-B-D-F)\nSpaces: FACE (F-A-C-E)",
+            "Notes on the bass clef (from bottom to top):\n\nLines: G-B-D-F-A\nSpaces: A-C-E-G\n\nMemory aids:\nLines: Good Boys Do Fine Always\nSpaces: All Cows Eat Grass (used with ledger lines)",
+            "Middle C is on the first ledger line below the treble staff and the first ledger line above the bass staff. The grand staff connects the treble and bass staves with a brace — this is how piano music is written."
+          ],
+          "tips": [
+            "Spend 5 minutes daily reading notes, starting with the treble clef and gradually adding the bass clef",
+            "Use 'FACE' for treble clef spaces and 'EGBDF' for treble clef lines"
+          ],
+          "quiz": {
+            "id": "q5-1",
+            "title": "Staff Notation Basics - Quiz",
+            "questions": [
+              {
+                "id": "q5-1-1",
+                "type": "single",
+                "question": "What note is on the second line of the treble clef?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "E"
+                  },
+                  {
+                    "id": "b",
+                    "text": "F"
+                  },
+                  {
+                    "id": "c",
+                    "text": "G"
+                  },
+                  {
+                    "id": "d",
+                    "text": "A"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "The treble clef is also called the G clef. Its spiral center wraps around the second line, indicating that the second line is G (sol)."
+              },
+              {
+                "id": "q5-1-2",
+                "type": "single",
+                "question": "What note is on the fourth line of the bass clef?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "D"
+                  },
+                  {
+                    "id": "b",
+                    "text": "E"
+                  },
+                  {
+                    "id": "c",
+                    "text": "F"
+                  },
+                  {
+                    "id": "d",
+                    "text": "G"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "The bass clef is also called the F clef. Two dots surround the fourth line, indicating that the fourth line is F (fa)."
+              },
+              {
+                "id": "q5-1-3",
+                "type": "single",
+                "question": "In the piano grand staff, what note is on the first ledger line below the treble staff and the first ledger line above the bass staff?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "G"
+                  },
+                  {
+                    "id": "b",
+                    "text": "A"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Middle C"
+                  },
+                  {
+                    "id": "d",
+                    "text": "E"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "Both of these positions are Middle C — the bridge connecting the treble and bass staves."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-2",
+          "order": 2,
+          "title": "Common Symbols",
+          "subtitle": "Making sheet music more precise",
+          "content": [
+            "Performance marks tell the performer how to express the music:\n\n• Slur (curved line): play notes within the slur smoothly (legato)\n• Staccato (small dot): play the note short and detached\n• Accent (>): emphasize the note's dynamic\n• Fermata (𝄐): hold the note/rest longer than its value\n• Crescendo (<): gradually get louder\n• Decrescendo/Diminuendo (>): gradually get softer",
+            "Repeat signs:\n\n• ||: :|| repeat the section between the signs\n• D.C. (Da Capo): repeat from the beginning\n• D.S. (Dal Segno): repeat from the 𝄋 sign\n• Fine: the end\n• Coda (𝄌): tail section, jump to the closing passage",
+            "Ornaments:\n\n• Appoggiatura: small note that takes part of the main note's duration\n• Mordent: rapid alternation between the main note and its upper/lower neighbor\n• Turn: four notes rapidly encircling the main note\n• Trill (tr~): rapid alternation between the main note and its upper neighbor",
+            "Tempo terms:\n\n• Grave: very slow\n• Largo: slow and broad\n• Adagio: slow\n• Andante: walking pace\n• Moderato: moderate speed\n• Allegro: fast\n• Presto: very fast"
+          ],
+          "tips": [
+            "Tempo terms are mostly in Italian because the classical music tradition originated in Italy",
+            "The specific execution of ornaments varies by period and composer, and should be understood in context"
+          ],
+          "quiz": {
+            "id": "q5-2",
+            "title": "Common Symbols - Quiz",
+            "questions": [
+              {
+                "id": "q5-2-1",
+                "type": "single",
+                "question": "What performance technique does a small dot above a note indicate?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Legato"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Staccato"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Accent"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Extend"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "A small dot (staccato) indicates short, detached notes played with about half the original duration."
+              },
+              {
+                "id": "q5-2-2",
+                "type": "single",
+                "question": "What does D.C. mean?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Repeat from sign"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Repeat from beginning"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Jump to coda"
+                  },
+                  {
+                    "id": "d",
+                    "text": "End"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "D.C. = Da Capo (Italian for 'from the head'), indicating a return to the beginning of the piece."
+              },
+              {
+                "id": "q5-2-3",
+                "type": "single",
+                "question": "What tempo does Allegro indicate?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Very slow"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Moderate"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Fast"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Extremely slow"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "Allegro means fast, indicating a quick tempo, approximately 120-168 BPM."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-3",
+          "order": 3,
+          "title": "Chord Progression Basics",
+          "subtitle": "The skeleton of pop music",
+          "content": [
+            "A chord progression is a sequence of chords arranged according to certain patterns — the 'harmonic skeleton' of a song.",
+            "Roman numeral chord notation (based on scale degrees):\n\nIn major keys:\nI = tonic (C)\nii = supertonic (Dm)\niii = mediant (Em)\nIV = subdominant (F)\nV = dominant (G)\nvi = submediant (Am)\nvii° = leading tone (Bdim)",
+            "Most common chord progressions:\n\n1. I-V-vi-IV (C-G-Am-F)\n   Used in countless pop songs: Someone Like You, Let It Be, I'm Yours\n\n2. I-IV-V (C-F-G)\n   The classic progression of blues, rock, and children's songs\n\n3. ii-V-I (Dm7-G7-Cmaj7)\n   The soul of jazz progressions\n\n4. I-V-vi-iii-IV-I-IV-V (Canon progression)\n   A classic variation of Pachelbel's Canon, extremely beautiful\n\n5. vi-IV-I-V (Am-F-C-G)\n   Similar to I-V-vi-IV but starting from minor, more melancholic",
+            "Functional groups:\n\n• Tonic function: I, vi — stable, feeling of resolution\n• Subdominant function: ii, IV — open, expanding feeling\n• Dominant function: V, vii° — tense, needs resolution to tonic",
+            "A good chord progression is like telling a story: tonic (home) → subdominant (departure) → dominant (tension) → tonic (returning home)."
+          ],
+          "tips": [
+            "Pick up a guitar or open a piano and play C-G-Am-F a few times — you'll find many songs fit this pattern",
+            "Try playing I-V-vi-IV in different keys to feel the same 'harmonic color'"
+          ],
+          "quiz": {
+            "id": "q5-3",
+            "title": "Chord Progressions - Quiz",
+            "questions": [
+              {
+                "id": "q5-3-1",
+                "type": "single",
+                "question": "In C major, what is the V chord?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "C chord"
+                  },
+                  {
+                    "id": "b",
+                    "text": "F chord"
+                  },
+                  {
+                    "id": "c",
+                    "text": "G chord"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Am chord"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "C major scale: C(1) D(2) E(3) F(4) G(5) A(6) B(7). The 5th degree is G, so the V chord is G major."
+              },
+              {
+                "id": "q5-3-2",
+                "type": "single",
+                "question": "Which is one of the most commonly used progressions in pop music?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "I-IV-V"
+                  },
+                  {
+                    "id": "b",
+                    "text": "I-V-vi-IV"
+                  },
+                  {
+                    "id": "c",
+                    "text": "ii-V-I"
+                  },
+                  {
+                    "id": "d",
+                    "text": "All of the above"
+                  }
+                ],
+                "correctAnswer": "d",
+                "explanation": "These are all extremely common progressions: I-IV-V is the foundation of blues/rock, I-V-vi-IV is the pop hit progression, and ii-V-I is the heart of jazz."
+              },
+              {
+                "id": "q5-3-3",
+                "type": "multi",
+                "question": "Which chords belong to the 'tonic function group'? (Multiple choice)",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "I degree"
+                  },
+                  {
+                    "id": "b",
+                    "text": "IV degree"
+                  },
+                  {
+                    "id": "c",
+                    "text": "V degree"
+                  },
+                  {
+                    "id": "d",
+                    "text": "vi degree"
+                  }
+                ],
+                "correctAnswer": [
+                  "a",
+                  "d"
+                ],
+                "explanation": "The tonic function group includes I (most stable) and vi (relative minor's tonic), both with a feeling of stability and resolution."
+              }
+            ]
+          }
+        },
+        {
+          "id": "l5-4",
+          "order": 4,
+          "title": "Comprehensive Review and Outlook",
+          "subtitle": "You've mastered the fundamentals of music theory!",
+          "content": [
+            "Congratulations on completing the entire 'Music Theory Fundamentals' course! Let's review the core knowledge you've learned:",
+            "📚 Knowledge Review:\n\n1. Music Fundamentals\n   ✓ Four properties of musical tone: pitch, duration, volume, timbre\n   ✓ Note and rest durations\n   ✓ Beat, rhythm, and time signatures\n\n2. Pitch and Scales\n   ✓ Letter names (C D E F G A B) and solfège (do re mi)\n   ✓ Semitones and whole tones\n   ✓ Major scale: W-W-H-W-W-W-H\n   ✓ Minor scale and its three forms\n\n3. Intervals and Chords\n   ✓ Interval degrees and qualities\n   ✓ Triads: major, minor, augmented, diminished\n   ✓ Seventh chords and inversions\n\n4. Keys and Tonality\n   ✓ Key signature patterns and quick identification\n   ✓ Circle of fifths and closely related keys\n\n5. Sight-Reading and Application\n   ✓ Staff notation and clefs\n   ✓ Performance marks and terms\n   ✓ Chord progressions",
+            "🎹 Next Steps:\n\n1. Choose an instrument: Piano is the best for understanding theory, guitar is also a great choice\n2. Continue studying: harmony, form analysis, counterpoint\n3. Practical application: try harmonizing simple melodies or analyzing chord progressions in your favorite songs\n4. Ear training: develop the ability to recognize intervals, chords, and keys by ear",
+            "Remember: Music theory is not a constraint, but a tool. With this knowledge, you can understand and create music more freely. Enjoy your musical journey!"
+          ],
+          "tips": [
+            "Consistent daily practice of 15-30 minutes is more effective than occasional cramming",
+            "Find friends to learn music with — discussing and playing together accelerates progress"
+          ],
+          "quiz": {
+            "id": "q5-4",
+            "title": "Final Assessment",
+            "questions": [
+              {
+                "id": "q5-4-1",
+                "type": "single",
+                "question": "How many sharps are in the key signature of G major?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "0"
+                  },
+                  {
+                    "id": "b",
+                    "text": "1"
+                  },
+                  {
+                    "id": "c",
+                    "text": "2"
+                  },
+                  {
+                    "id": "d",
+                    "text": "3"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "G major has 1 sharp (F#)."
+              },
+              {
+                "id": "q5-4-2",
+                "type": "single",
+                "question": "What chord is C-E-G?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "Minor triad"
+                  },
+                  {
+                    "id": "b",
+                    "text": "Major triad"
+                  },
+                  {
+                    "id": "c",
+                    "text": "Dominant 7th"
+                  },
+                  {
+                    "id": "d",
+                    "text": "Diminished triad"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "C-E is a major 3rd, E-G is a minor 3rd. Major + minor = major triad."
+              },
+              {
+                "id": "q5-4-3",
+                "type": "single",
+                "question": "What is the interval structure of natural minor?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "W-W-H-W-W-W-H"
+                  },
+                  {
+                    "id": "b",
+                    "text": "W-H-W-W-H-W-W"
+                  },
+                  {
+                    "id": "c",
+                    "text": "H-W-W-H-W-W-W"
+                  },
+                  {
+                    "id": "d",
+                    "text": "W-W-W-H-W-W-H"
+                  }
+                ],
+                "correctAnswer": "b",
+                "explanation": "Natural minor: W-H-W-W-H-W-W."
+              },
+              {
+                "id": "q5-4-4",
+                "type": "single",
+                "question": "How many semitones does a perfect 5th contain?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "5"
+                  },
+                  {
+                    "id": "b",
+                    "text": "6"
+                  },
+                  {
+                    "id": "c",
+                    "text": "7"
+                  },
+                  {
+                    "id": "d",
+                    "text": "8"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "Perfect 5th = 7 semitones."
+              },
+              {
+                "id": "q5-4-5",
+                "type": "single",
+                "question": "What note is on the second line of the treble clef?",
+                "choices": [
+                  {
+                    "id": "a",
+                    "text": "E"
+                  },
+                  {
+                    "id": "b",
+                    "text": "F"
+                  },
+                  {
+                    "id": "c",
+                    "text": "G"
+                  },
+                  {
+                    "id": "d",
+                    "text": "A"
+                  }
+                ],
+                "correctAnswer": "c",
+                "explanation": "The treble clef wraps around the second line, indicating that the second line is G."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

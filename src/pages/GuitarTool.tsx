@@ -8,6 +8,7 @@ import {
   getFretFreq,
   type GuitarChord,
 } from "@/data/guitarChords";
+import { useTranslation } from "react-i18next";
 
 export default function GuitarTool() {
   const [selectedChord, setSelectedChord] = useState<GuitarChord>(COMMON_CHORDS[0]);
@@ -16,6 +17,7 @@ export default function GuitarTool() {
   const [progressionPlaying, setProgressionPlaying] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const activeOscRef = useRef<OscillatorNode[]>([]);
+  const { t } = useTranslation();
 
   const getAudioContext = useCallback(() => {
     if (!audioCtxRef.current) {
@@ -43,16 +45,14 @@ export default function GuitarTool() {
         const newOscs: OscillatorNode[] = [];
 
         chord.frets.forEach((fret, stringIdx) => {
-          if (fret < 0) return; // 闷音不弹
+          if (fret < 0) return;
           const freq = getFretFreq(stringIdx, fret);
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
 
-          // 吉他音色：混合 sawtooth 和 sine
           osc.type = "sawtooth";
           osc.frequency.setValueAtTime(freq, ctx.currentTime);
 
-          // 低通滤波让声音更像吉他
           const filter = ctx.createBiquadFilter();
           filter.type = "lowpass";
           filter.frequency.setValueAtTime(2000, ctx.currentTime);
@@ -131,7 +131,6 @@ export default function GuitarTool() {
     return () => stopAll();
   }, [stopAll]);
 
-  // 获取该和弦实际使用的最高品数
   const maxFret = Math.max(...selectedChord.frets.filter((f) => f > 0), 0);
   const displayFrets = maxFret <= 4 ? 5 : Math.min(maxFret + 1, 6);
 
@@ -144,23 +143,23 @@ export default function GuitarTool() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">吉他工具</h1>
+            <h1 className="text-3xl font-bold mb-2">{t("guitar.title")}</h1>
             <p className="text-text-muted">
-              常用吉他和弦指法、和弦进行练习
+              {t("guitar.subtitle")}
             </p>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowHelp((v) => !v)}
               className="p-2 rounded-lg bg-surface-light hover:bg-surface-light/80 transition-colors"
-              title="帮助"
+              title={t("guitar.help")}
             >
               <Info className="w-5 h-5 text-text-muted" />
             </button>
             <button
               onClick={() => setMuted((v) => !v)}
               className="p-2 rounded-lg bg-surface-light hover:bg-surface-light/80 transition-colors"
-              title={muted ? "开启声音" : "静音"}
+              title={muted ? t("guitar.unmute") : t("guitar.mute")}
             >
               {muted ? (
                 <VolumeX className="w-5 h-5 text-danger" />
@@ -179,16 +178,15 @@ export default function GuitarTool() {
           className="bg-surface rounded-xl p-4 border border-surface-light mb-6 text-sm text-text-muted"
         >
           <ul className="space-y-1">
-            <li>• 点击和弦卡片查看指法并播放</li>
-            <li>• 指板图中 X = 闷音（不弹），0 = 空弦，数字 = 按几品</li>
-            <li>• 点击指板上的圆点可单独弹奏该弦</li>
-            <li>• 使用下方「和弦进行」一键练习经典进行</li>
+            <li>• {t("guitar.help1")}</li>
+            <li>• {t("guitar.help2")}</li>
+            <li>• {t("guitar.help3")}</li>
+            <li>• {t("guitar.help4")}</li>
           </ul>
         </motion.div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* 和弦选择面板 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -196,7 +194,7 @@ export default function GuitarTool() {
         >
           <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
             <Guitar className="w-5 h-5 text-primary" />
-            常用和弦
+            {t("guitar.commonChords")}
           </h2>
           <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
             {COMMON_CHORDS.map((chord) => (
@@ -214,13 +212,12 @@ export default function GuitarTool() {
               >
                 {chord.name}
                 {chord.tags.includes("大横按") && (
-                  <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-secondary rounded-full" title="大横按" />
+                  <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-secondary rounded-full" title={t("guitar.barre")} />
                 )}
               </button>
             ))}
           </div>
 
-          {/* 当前和弦信息 */}
           <div className="mt-4 bg-surface rounded-xl p-4 border border-surface-light">
             <div className="flex items-center justify-between mb-2">
               <div>
@@ -232,7 +229,7 @@ export default function GuitarTool() {
                 className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition-colors"
               >
                 <Play className="w-4 h-4" />
-                播放
+                {t("guitar.play")}
               </button>
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
@@ -248,16 +245,14 @@ export default function GuitarTool() {
           </div>
         </motion.div>
 
-        {/* 指板可视化 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h2 className="text-lg font-bold mb-3">指板</h2>
+          <h2 className="text-lg font-bold mb-3">{t("guitar.fretboard")}</h2>
           <div className="bg-surface rounded-xl p-4 md:p-6 border border-surface-light overflow-x-auto">
             <div className="inline-block min-w-full">
-              {/* 弦号和空弦/闷音标记 */}
               <div className="flex mb-1">
                 <div className="w-8 flex-shrink-0" />
                 {selectedChord.frets.map((fret, idx) => (
@@ -276,17 +271,13 @@ export default function GuitarTool() {
                 ))}
               </div>
 
-              {/* 指板 */}
               <div className="relative">
-                {/* 弦线 */}
                 {Array.from({ length: displayFrets }).map((_, fretIdx) => (
                   <div key={fretIdx} className="flex items-center h-10">
-                    {/* 品号 */}
                     <div className="w-8 flex-shrink-0 text-xs text-text-muted text-right pr-2">
                       {fretIdx === 0 && maxFret <= 4 ? "1" : maxFret > 4 ? maxFret - 2 + fretIdx : fretIdx + 1}
                     </div>
 
-                    {/* 品上的弦 */}
                     {selectedChord.frets.map((fret, stringIdx) => {
                       const actualFret = maxFret <= 4 ? fretIdx + 1 : maxFret - 2 + fretIdx + 1;
                       const isPressed = fret === actualFret;
@@ -297,13 +288,12 @@ export default function GuitarTool() {
                           key={`${fretIdx}-${stringIdx}`}
                           className="w-10 flex-shrink-0 flex items-center justify-center relative"
                         >
-                          {/* 品丝线 */}
                           <div className="absolute left-0 right-0 h-px bg-gray-500" />
                           {isPressed && (
                             <button
                               onClick={() => playString(stringIdx, fret)}
                               className="w-7 h-7 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center z-10 hover:bg-primary-dark transition-colors shadow-lg"
-                              title={`${GUITAR_STRINGS[stringIdx].note} 弦第 ${fret} 品`}
+                              title={t("guitar.stringFret", { note: GUITAR_STRINGS[stringIdx].note, fret })}
                             >
                               {finger > 0 ? finger : ""}
                             </button>
@@ -315,7 +305,6 @@ export default function GuitarTool() {
                 ))}
               </div>
 
-              {/* 弦名 */}
               <div className="flex mt-2">
                 <div className="w-8 flex-shrink-0" />
                 {GUITAR_STRINGS.map((s) => (
@@ -329,7 +318,6 @@ export default function GuitarTool() {
         </motion.div>
       </div>
 
-      {/* 和弦进行 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -338,7 +326,7 @@ export default function GuitarTool() {
       >
         <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
           <Music className="w-5 h-5 text-secondary" />
-          和弦进行练习
+          {t("guitar.progressionPractice")}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {CHORD_PROGRESSIONS.map((prog) => (
@@ -375,12 +363,12 @@ export default function GuitarTool() {
                 {progressionPlaying ? (
                   <>
                     <Square className="w-4 h-4" />
-                    播放中...
+                    {t("guitar.playing")}
                   </>
                 ) : (
                   <>
                     <Play className="w-4 h-4" />
-                    一键播放
+                    {t("guitar.playAll")}
                   </>
                 )}
               </button>

@@ -2,15 +2,17 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { RotateCcw, CheckCircle2, Circle, Trophy, TrendingUp, Calendar } from "lucide-react";
 import { useProgressContext } from "@/context/ProgressContext";
+import { useTranslation } from "react-i18next";
 
 export default function ProgressPage() {
   const { progress, courseCatalog, resetProgress, loading } = useProgressContext();
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const { t } = useTranslation();
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-text-muted">加载中...</div>
+        <div className="text-text-muted">{t("common.loading")}</div>
       </div>
     );
   }
@@ -18,7 +20,7 @@ export default function ProgressPage() {
   if (!progress || !courseCatalog) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-text-muted">数据加载失败</div>
+        <div className="text-text-muted">{t("common.loadFailed")}</div>
       </div>
     );
   }
@@ -36,6 +38,41 @@ export default function ProgressPage() {
     setShowResetConfirm(false);
   };
 
+  const stats = [
+    {
+      label: t("progress.lessonsCompleted"),
+      value: `${completedLessons}/${totalLessons}`,
+      sub: `${lessonPercent}%`,
+      icon: CheckCircle2,
+      color: "text-success",
+      bg: "bg-success/20",
+    },
+    {
+      label: t("progress.quizzesCompleted"),
+      value: `${completedQuizzes}/${totalQuizzes}`,
+      sub: `${quizPercent}%`,
+      icon: Trophy,
+      color: "text-secondary",
+      bg: "bg-secondary/20",
+    },
+    {
+      label: t("progress.averageScore"),
+      value: `${avgScore}`,
+      sub: t("common.points"),
+      icon: TrendingUp,
+      color: "text-primary",
+      bg: "bg-primary/20",
+    },
+    {
+      label: t("progress.studyStreak"),
+      value: `${progress.streak_days}`,
+      sub: t("common.days"),
+      icon: Calendar,
+      color: "text-rose-400",
+      bg: "bg-rose-500/20",
+    },
+  ];
+
   return (
     <div className="p-6 md:p-10 max-w-4xl mx-auto">
       <motion.div
@@ -43,46 +80,13 @@ export default function ProgressPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold mb-2">学习进度</h1>
-        <p className="text-text-muted">追踪你的学习轨迹，见证每一步成长</p>
+        <h1 className="text-3xl font-bold mb-2">{t("progress.title")}</h1>
+        <p className="text-text-muted">{t("progress.subtitle")}</p>
       </motion.div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        {[
-          {
-            label: "已完成课程",
-            value: `${completedLessons}/${totalLessons}`,
-            sub: `${lessonPercent}%`,
-            icon: CheckCircle2,
-            color: "text-success",
-            bg: "bg-success/20",
-          },
-          {
-            label: "已完成测验",
-            value: `${completedQuizzes}/${totalQuizzes}`,
-            sub: `${quizPercent}%`,
-            icon: Trophy,
-            color: "text-secondary",
-            bg: "bg-secondary/20",
-          },
-          {
-            label: "平均得分",
-            value: `${avgScore}`,
-            sub: "分",
-            icon: TrendingUp,
-            color: "text-primary",
-            bg: "bg-primary/20",
-          },
-          {
-            label: "连续学习",
-            value: `${progress.streak_days}`,
-            sub: "天",
-            icon: Calendar,
-            color: "text-rose-400",
-            bg: "bg-rose-500/20",
-          },
-        ].map((stat, i) => (
+        {stats.map((stat, i) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
@@ -111,7 +115,7 @@ export default function ProgressPage() {
         transition={{ delay: 0.2 }}
         className="mb-8"
       >
-        <h2 className="text-xl font-bold mb-4">章节进度</h2>
+        <h2 className="text-xl font-bold mb-4">{t("progress.chapterProgress")}</h2>
         <div className="space-y-3">
           {courseCatalog.chapters.map((ch, i) => {
             const chCompleted = ch.lessons.filter((l) =>
@@ -133,7 +137,7 @@ export default function ProgressPage() {
                     <div>
                       <div className="font-medium">{ch.title}</div>
                       <div className="text-text-muted text-xs">
-                        {chCompleted} / {ch.lessons.length} 课
+                        {t("progress.chapterLessons", { completed: chCompleted, total: ch.lessons.length })}
                       </div>
                     </div>
                   </div>
@@ -161,7 +165,7 @@ export default function ProgressPage() {
           transition={{ delay: 0.3 }}
           className="mb-8"
         >
-          <h2 className="text-xl font-bold mb-4">测验成绩</h2>
+          <h2 className="text-xl font-bold mb-4">{t("progress.quizScores")}</h2>
           <div className="space-y-2">
             {courseCatalog.chapters.flatMap((ch) =>
               ch.lessons
@@ -191,7 +195,7 @@ export default function ProgressPage() {
                         </div>
                         <div>
                           <div className="font-medium text-sm">{l.title}</div>
-                          <div className="text-text-muted text-xs">{l.quiz_title || "测验"}</div>
+                          <div className="text-text-muted text-xs">{l.quiz_title || t("common.lesson")}</div>
                         </div>
                       </div>
                       <div
@@ -203,7 +207,7 @@ export default function ProgressPage() {
                             : "text-danger"
                         }`}
                       >
-                        {score}分
+                        {score}{t("common.points")}
                       </div>
                     </div>
                   );
@@ -221,25 +225,25 @@ export default function ProgressPage() {
             className="flex items-center gap-2 text-text-muted hover:text-danger transition-colors"
           >
             <RotateCcw className="w-4 h-4" />
-            重置所有进度
+            {t("progress.resetProgress")}
           </button>
         ) : (
           <div className="bg-danger/10 border border-danger/20 rounded-xl p-4">
             <p className="text-danger text-sm mb-3">
-              确定要重置所有学习进度吗？此操作不可撤销。
+              {t("progress.resetConfirm")}
             </p>
             <div className="flex gap-3">
               <button
                 onClick={handleReset}
                 className="bg-danger hover:bg-danger/80 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
-                确认重置
+                {t("progress.confirmReset")}
               </button>
               <button
                 onClick={() => setShowResetConfirm(false)}
                 className="bg-surface-light hover:bg-surface-light/80 text-text px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
-                取消
+                {t("common.cancel")}
               </button>
             </div>
           </div>

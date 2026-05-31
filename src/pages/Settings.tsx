@@ -11,6 +11,7 @@ import {
   EyeOff,
   Image as ImageIcon,
   Volume2,
+  Languages,
 } from "lucide-react";
 import type { AISettings, LLMProvider } from "@/types/ai";
 import { DEFAULT_MODELS, PROVIDER_BASE_URLS } from "@/types/ai";
@@ -25,6 +26,8 @@ import {
   Download,
   RotateCcw,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useLanguage, type AppLanguage } from "@/context/LanguageContext";
 
 const AI_SETTINGS_KEY = "musicday1-ai-settings";
 
@@ -42,6 +45,9 @@ function loadAISettings(): AISettings {
 }
 
 export default function Settings() {
+  const { t } = useTranslation();
+  const { language, setLanguage } = useLanguage();
+
   const [aiSettings, setAISettings] = useState<AISettings>(loadAISettings);
   const [showAIKey, setShowAIKey] = useState(false);
   const [showImgKey, setShowImgKey] = useState(false);
@@ -76,29 +82,29 @@ export default function Settings() {
           switch (e.event) {
             case "Finished":
               setUpdateState("ready");
-              setUpdateMsg(`v${update.version} 已下载，点击重启安装`);
+              setUpdateMsg(t("settings.updateDownloaded", { version: update.version }));
               downloaded = 1;
               break;
             case "Progress":
               downloaded += e.data.chunkLength;
-              setUpdateMsg(`下载中... ${(downloaded / 1024).toFixed(0)}KB`);
+              setUpdateMsg(t("settings.downloading") + ` ${(downloaded / 1024).toFixed(0)}KB`);
               break;
             case "Started":
-              setUpdateMsg("开始下载...");
+              setUpdateMsg(t("settings.startingDownload"));
               break;
           }
         });
         if (!downloaded) {
           setUpdateState("ready");
-          setUpdateMsg(`v${update.version} 已就绪`);
+          setUpdateMsg(t("settings.updateReady", { version: update.version }));
         }
       } else {
         setUpdateState("idle");
-        setUpdateMsg("已是最新版本");
+        setUpdateMsg(t("settings.upToDate"));
       }
     } catch (err: any) {
       setUpdateState("error");
-      setUpdateMsg(`检查更新失败: ${err.message ?? err}`);
+      setUpdateMsg(t("settings.updateCheckFailed", { error: err.message ?? err }));
     }
   };
 
@@ -110,7 +116,6 @@ export default function Settings() {
     localStorage.setItem(AI_SETTINGS_KEY, JSON.stringify(aiSettings));
   }, [aiSettings]);
 
-  // Image gen — managed by Rust backend
   const {
     status: imageStatus,
     setBackend: setImageBackend,
@@ -157,7 +162,7 @@ export default function Settings() {
         });
         if (res.ok) {
           setTestStatus("success");
-          setTestMsg("连接成功！API Key 有效。");
+          setTestMsg(t("settings.connectionSuccess"));
         } else {
           throw new Error(`HTTP ${res.status}`);
         }
@@ -167,19 +172,19 @@ export default function Settings() {
         });
         if (res.ok) {
           setTestStatus("success");
-          setTestMsg("连接成功！API Key 有效。");
+          setTestMsg(t("settings.connectionSuccess"));
         } else {
           throw new Error(`HTTP ${res.status}`);
         }
       }
     } catch (err: any) {
       setTestStatus("error");
-      setTestMsg(`连接失败：${err.message}`);
+      setTestMsg(t("settings.connectionFailed", { error: err.message }));
     }
   };
 
   const clearAllData = () => {
-    if (confirm("确定要清除所有本地数据（包括学习进度、AI 设置和图片缓存）吗？此操作不可撤销。")) {
+    if (confirm(t("settings.clearConfirm"))) {
       localStorage.clear();
       window.location.reload();
     }
@@ -192,8 +197,44 @@ export default function Settings() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold mb-2">设置</h1>
-        <p className="text-text-muted">配置 AI 导师、图片生成和其他应用设置</p>
+        <h1 className="text-3xl font-bold mb-2">{t("settings.title")}</h1>
+        <p className="text-text-muted">{t("settings.subtitle")}</p>
+      </motion.div>
+
+      {/* Language Settings */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="bg-surface rounded-2xl p-6 border border-surface-light mb-6"
+      >
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+            <Languages className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold">{t("settings.language")}</h2>
+            <p className="text-text-muted text-sm">{t("settings.languageDesc")}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2">
+          {(["auto", "zh", "en"] as const).map((lang) => (
+            <button
+              key={lang}
+              onClick={() => setLanguage(lang === "auto" ? (navigator.language.startsWith("zh") ? "zh" : "en") : lang as AppLanguage)}
+              className={`px-3 py-2 rounded-lg text-sm font-medium border-2 transition-colors ${
+                (lang === "auto"
+                  ? language === (navigator.language.startsWith("zh") ? "zh" : "en")
+                  : language === lang)
+                  ? "border-primary bg-primary/20 text-primary"
+                  : "border-surface-light bg-surface-light/50 text-text-muted hover:border-primary/50"
+              }`}
+            >
+              {lang === "auto" ? t("settings.languageAuto") : lang === "zh" ? t("settings.languageZh") : t("settings.languageEn")}
+            </button>
+          ))}
+        </div>
       </motion.div>
 
       {/* AI Chat Settings */}
@@ -208,13 +249,13 @@ export default function Settings() {
             <Bot className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">AI 乐理导师</h2>
-            <p className="text-text-muted text-sm">配置 LLM API，开启 AI 互动学习</p>
+            <h2 className="text-lg font-bold">{t("settings.aiTutor")}</h2>
+            <p className="text-text-muted text-sm">{t("settings.aiTutorDesc")}</p>
           </div>
         </div>
 
         <div className="flex items-center justify-between py-3 border-b border-surface-light">
-          <span className="text-sm">启用 AI 导师</span>
+          <span className="text-sm">{t("settings.enableAi")}</span>
           <button
             onClick={() => setAISettings((p) => ({ ...p, enabled: !p.enabled }))}
             className={`w-12 h-6 rounded-full transition-colors relative ${
@@ -232,7 +273,7 @@ export default function Settings() {
         {aiSettings.enabled && (
           <div className="space-y-4 mt-4">
             <div>
-              <label className="text-sm text-text-muted mb-1.5 block">服务商</label>
+              <label className="text-sm text-text-muted mb-1.5 block">{t("settings.provider")}</label>
               <div className="grid grid-cols-4 gap-2">
                 {(["openai", "anthropic", "deepseek", "openrouter"] as LLMProvider[]).map((p) => (
                   <button
@@ -251,7 +292,7 @@ export default function Settings() {
             </div>
 
             <div>
-              <label className="text-sm text-text-muted mb-1.5 block">模型</label>
+              <label className="text-sm text-text-muted mb-1.5 block">{t("settings.model")}</label>
               <select
                 value={aiSettings.model}
                 onChange={(e) => setAISettings((p) => ({ ...p, model: e.target.value }))}
@@ -264,7 +305,7 @@ export default function Settings() {
             </div>
 
             <div>
-              <label className="text-sm text-text-muted mb-1.5 block">API Key</label>
+              <label className="text-sm text-text-muted mb-1.5 block">{t("settings.apiKey")}</label>
               <div className="flex gap-2">
                 <div className="flex-1 relative">
                   <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
@@ -287,7 +328,7 @@ export default function Settings() {
                   disabled={!aiSettings.apiKey || testStatus === "testing"}
                   className="px-4 py-2 bg-primary hover:bg-primary-dark disabled:opacity-40 text-white rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
                 >
-                  {testStatus === "testing" ? "测试中..." : "测试连接"}
+                  {testStatus === "testing" ? t("settings.testing") : t("settings.testConnection")}
                 </button>
               </div>
               {testStatus === "success" && (
@@ -301,7 +342,7 @@ export default function Settings() {
                 </div>
               )}
               <p className="text-xs text-text-muted mt-2">
-                API Key 仅存储在你的本地设备上。推荐使用 DeepSeek，性价比高且中文支持好。
+                {t("settings.apiKeyHint")}
               </p>
             </div>
           </div>
@@ -320,38 +361,35 @@ export default function Settings() {
             <Volume2 className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">语音朗读 (TTS)</h2>
-            <p className="text-text-muted text-sm">
-              配置火山引擎 TTS，获得高质量中文朗读音色
-            </p>
+            <h2 className="text-lg font-bold">{t("settings.tts")}</h2>
+            <p className="text-text-muted text-sm">{t("settings.ttsDesc")}</p>
           </div>
         </div>
 
         <div className="space-y-4">
           <div className="bg-surface-light/50 rounded-xl p-3 border border-surface-light">
             <p className="text-xs text-text-muted mb-2">
-              需要火山引擎大模型语音合成服务。前往 <a href="https://console.volcengine.com/tts" target="_blank" rel="noopener noreferrer" className="text-primary underline">console.volcengine.com/tts</a> 开通后获取凭证。
+              {t("settings.ttsHint1")}
             </p>
             <p className="text-xs text-text-muted">
-              也可以设置环境变量 <code className="text-primary bg-primary/10 px-1 rounded">VOLCANO_APPID</code> 和{" "}
-              <code className="text-primary bg-primary/10 px-1 rounded">VOLCANO_ACCESS_TOKEN</code>。
+              {t("settings.ttsHint2")}
             </p>
           </div>
 
           <div>
-            <label className="text-sm text-text-muted mb-1.5 block">App ID</label>
+            <label className="text-sm text-text-muted mb-1.5 block">{t("settings.appId")}</label>
             <input
               type="text"
               value={ttsAppId}
               onChange={(e) => setTtsAppId(e.target.value)}
               onBlur={() => ttsAppId && updateTts({ appid: ttsAppId })}
-              placeholder="火山引擎 App ID"
+              placeholder={t("settings.appId")}
               className="w-full bg-surface-light rounded-lg px-3 py-2.5 text-sm outline-none border border-transparent focus:border-primary text-text placeholder:text-text-muted"
             />
           </div>
 
           <div>
-            <label className="text-sm text-text-muted mb-1.5 block">Access Token</label>
+            <label className="text-sm text-text-muted mb-1.5 block">{t("settings.accessToken")}</label>
             <div className="relative">
               <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
               <input
@@ -359,7 +397,7 @@ export default function Settings() {
                 value={ttsToken}
                 onChange={(e) => setTtsToken(e.target.value)}
                 onBlur={() => ttsToken && updateTts({ token: ttsToken })}
-                placeholder="火山引擎 Access Token"
+                placeholder={t("settings.accessToken")}
                 className="w-full bg-surface-light rounded-lg pl-9 pr-9 py-2.5 text-sm outline-none border border-transparent focus:border-primary text-text placeholder:text-text-muted"
               />
               <button
@@ -372,7 +410,7 @@ export default function Settings() {
           </div>
 
           <div>
-            <label className="text-sm text-text-muted mb-1.5 block">朗读音色</label>
+            <label className="text-sm text-text-muted mb-1.5 block">{t("settings.voice")}</label>
             <select
               value={ttsVoice}
               onChange={(e) => {
@@ -392,14 +430,14 @@ export default function Settings() {
               <>
                 <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                 <span className="text-success">
-                  火山引擎 TTS 已就绪 — 当前音色: {ttsStatus.current_voice}
+                  {t("settings.ttsReady", { voice: ttsStatus.current_voice })}
                 </span>
               </>
             ) : (
               <>
                 <AlertCircle className="w-3.5 h-3.5 text-warning" />
                 <span className="text-warning">
-                  未配置凭证，使用 macOS 系统语音 (Mei-Jia)
+                  {t("settings.ttsFallback")}
                 </span>
               </>
             )}
@@ -419,14 +457,14 @@ export default function Settings() {
             <ImageIcon className="w-5 h-5 text-secondary" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">AI 图片生成</h2>
-            <p className="text-text-muted text-sm">为课程内容生成 AI 配图，Seedream 复用火山引擎账号</p>
+            <h2 className="text-lg font-bold">{t("settings.imageGen")}</h2>
+            <p className="text-text-muted text-sm">{t("settings.imageGenDesc")}</p>
           </div>
         </div>
 
         <div className="space-y-4">
           <div>
-            <label className="text-sm text-text-muted mb-1.5 block">图片后端</label>
+            <label className="text-sm text-text-muted mb-1.5 block">{t("settings.imageBackend")}</label>
             <div className="grid grid-cols-2 gap-2">
               {(imageStatus?.backends ?? []).map((b) => (
                 <button
@@ -446,9 +484,9 @@ export default function Settings() {
 
           <div>
             <label className="text-sm text-text-muted mb-1.5 block">
-              API Key
+              {t("settings.apiKey")}
               {imageStatus?.backend === "seedream" && (
-                <span className="text-text-muted/60"> — ARK 平台 API Key</span>
+                <span className="text-text-muted/60"> — {t("settings.arkApiKey")}</span>
               )}
             </label>
             <div className="relative">
@@ -473,7 +511,7 @@ export default function Settings() {
             </div>
             {imageStatus?.backend === "seedream" && (
               <p className="text-xs text-text-muted mt-1.5">
-                前往 <a href="https://console.volcengine.com/ark" target="_blank" rel="noopener noreferrer" className="text-primary underline">console.volcengine.com/ark</a> 创建 API Key
+                {t("settings.createApiKey")}
               </p>
             )}
           </div>
@@ -483,13 +521,13 @@ export default function Settings() {
               <>
                 <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                 <span className="text-success">
-                  图片生成已就绪 — 后端: {imageStatus.backend}
+                  {t("settings.imageReady", { backend: imageStatus.backend })}
                 </span>
               </>
             ) : (
               <>
                 <AlertCircle className="w-3.5 h-3.5 text-warning" />
-                <span className="text-warning">未配置 API Key</span>
+                <span className="text-warning">{t("settings.imageNotConfigured")}</span>
               </>
             )}
           </div>
@@ -508,8 +546,8 @@ export default function Settings() {
             <RefreshCw className="w-5 h-5 text-success" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">版本更新</h2>
-            <p className="text-text-muted text-sm">当前版本 v{appVersion}</p>
+            <h2 className="text-lg font-bold">{t("settings.versionUpdates")}</h2>
+            <p className="text-text-muted text-sm">{t("settings.currentVersion", { version: appVersion })}</p>
           </div>
         </div>
 
@@ -520,7 +558,7 @@ export default function Settings() {
               className="flex items-center gap-2 bg-success hover:bg-success/80 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors w-full justify-center"
             >
               <RotateCcw className="w-4 h-4" />
-              重启安装更新
+              {t("settings.restartInstall")}
             </button>
           ) : (
             <button
@@ -536,10 +574,10 @@ export default function Settings() {
                 <RefreshCw className="w-4 h-4" />
               )}
               {updateState === "checking"
-                ? "检查中..."
+                ? t("settings.checking")
                 : updateState === "downloading"
-                ? updateMsg || "下载中..."
-                : "检查更新"}
+                ? updateMsg || t("settings.downloading")
+                : t("settings.checkUpdates")}
             </button>
           )}
 
@@ -568,8 +606,8 @@ export default function Settings() {
             <SettingsIcon className="w-5 h-5 text-danger" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">数据管理</h2>
-            <p className="text-text-muted text-sm">清除本地存储的所有数据</p>
+            <h2 className="text-lg font-bold">{t("settings.dataManagement")}</h2>
+            <p className="text-text-muted text-sm">{t("settings.dataManagementDesc")}</p>
           </div>
         </div>
         <button
@@ -577,7 +615,7 @@ export default function Settings() {
           className="flex items-center gap-2 text-danger hover:text-danger/80 transition-colors"
         >
           <Trash2 className="w-4 h-4" />
-          清除所有本地数据
+          {t("settings.clearAllData")}
         </button>
       </motion.div>
     </div>

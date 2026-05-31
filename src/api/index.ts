@@ -13,17 +13,17 @@ import type {
   ImageGenResultDto,
 } from "./types";
 
-export const getCourseCatalog = () =>
-  invoke<CourseCatalogDto>("get_course_catalog");
+export const getCourseCatalog = (lang: string) =>
+  invoke<CourseCatalogDto>("get_course_catalog", { lang });
 
-export const getLessonDetail = (lessonId: string) =>
-  invoke<LessonDetailDto>("get_lesson_detail", { lessonId });
+export const getLessonDetail = (lessonId: string, lang: string) =>
+  invoke<LessonDetailDto>("get_lesson_detail", { lessonId, lang });
 
-export const getQuiz = (quizId: string) =>
-  invoke<QuizDto>("get_quiz", { quizId });
+export const getQuiz = (quizId: string, lang: string) =>
+  invoke<QuizDto>("get_quiz", { quizId, lang });
 
-export const getNavigation = (lessonId: string) =>
-  invoke<NavigationDto>("get_navigation", { lessonId });
+export const getNavigation = (lessonId: string, lang: string) =>
+  invoke<NavigationDto>("get_navigation", { lessonId, lang });
 
 export const markLessonComplete = (lessonId: string) =>
   invoke<UserProgressDto>("mark_lesson_complete", { lessonId });
@@ -31,11 +31,11 @@ export const markLessonComplete = (lessonId: string) =>
 export const getUserProgress = () =>
   invoke<UserProgressDto>("get_user_progress");
 
-export const getLessonAccessibility = () =>
-  invoke<LessonAccessibilityDto[]>("get_lesson_accessibility");
+export const getLessonAccessibility = (lang: string) =>
+  invoke<LessonAccessibilityDto[]>("get_lesson_accessibility", { lang });
 
-export const submitQuiz = (submission: QuizSubmissionDto) =>
-  invoke<QuizResultDto>("submit_quiz", { submission });
+export const submitQuiz = (submission: QuizSubmissionDto, lang: string) =>
+  invoke<QuizResultDto>("submit_quiz", { submission, lang });
 
 export const resetProgress = () => invoke<void>("reset_progress");
 

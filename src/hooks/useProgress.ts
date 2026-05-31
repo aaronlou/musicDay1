@@ -8,6 +8,7 @@ import {
   submitQuiz as apiSubmitQuiz,
   resetProgress as apiResetProgress,
 } from "@/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface AppData {
   courseCatalog: CourseCatalogDto | null;
@@ -18,6 +19,7 @@ export interface AppData {
 }
 
 export function useAppData() {
+  const { language } = useLanguage();
   const [data, setData] = useState<AppData>({
     courseCatalog: null,
     progress: null,
@@ -30,9 +32,9 @@ export function useAppData() {
     setData((prev) => ({ ...prev, loading: true, error: null }));
     try {
       const [catalog, progress, accessibility] = await Promise.all([
-        getCourseCatalog(),
+        getCourseCatalog(language),
         getUserProgress(),
-        getLessonAccessibility(),
+        getLessonAccessibility(language),
       ]);
       setData({
         courseCatalog: catalog,
@@ -48,7 +50,7 @@ export function useAppData() {
         error: err instanceof Error ? err.message : String(err),
       }));
     }
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     loadAll();
@@ -57,34 +59,34 @@ export function useAppData() {
   const markLessonComplete = useCallback(
     async (lessonId: string) => {
       const progress = await apiMarkLessonComplete(lessonId);
-      const accessibility = await getLessonAccessibility();
+      const accessibility = await getLessonAccessibility(language);
       setData((prev) => ({ ...prev, progress, accessibility }));
       return progress;
     },
-    []
+    [language]
   );
 
   const submitQuiz = useCallback(
     async (submission: { quiz_id: string; answers: { question_id: string; answer: string | string[] }[] }) => {
-      const result = await apiSubmitQuiz(submission);
+      const result = await apiSubmitQuiz(submission, language);
       const [progress, accessibility] = await Promise.all([
         getUserProgress(),
-        getLessonAccessibility(),
+        getLessonAccessibility(language),
       ]);
       setData((prev) => ({ ...prev, progress, accessibility }));
       return result;
     },
-    []
+    [language]
   );
 
   const resetProgress = useCallback(async () => {
     await apiResetProgress();
     const [progress, accessibility] = await Promise.all([
       getUserProgress(),
-      getLessonAccessibility(),
+      getLessonAccessibility(language),
     ]);
     setData((prev) => ({ ...prev, progress, accessibility }));
-  }, []);
+  }, [language]);
 
   const isLessonComplete = useCallback(
     (lessonId: string) =>

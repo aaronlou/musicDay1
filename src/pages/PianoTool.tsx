@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Volume2, VolumeX, Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface PianoKey {
   note: string;
@@ -49,6 +50,7 @@ export default function PianoTool() {
   const [muted, setMuted] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
+  const { t } = useTranslation();
 
   const getAudioContext = useCallback(() => {
     if (!audioCtxRef.current) {
@@ -145,23 +147,23 @@ export default function PianoTool() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">虚拟钢琴</h1>
+            <h1 className="text-3xl font-bold mb-2">{t("piano.title")}</h1>
             <p className="text-text-muted">
-              点击琴键或使用键盘演奏，边学边弹加深理解
+              {t("piano.subtitle")}
             </p>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowHelp((v) => !v)}
               className="p-2 rounded-lg bg-surface-light hover:bg-surface-light/80 transition-colors"
-              title="键盘映射"
+              title={t("piano.keyboardMapping")}
             >
               <Info className="w-5 h-5 text-text-muted" />
             </button>
             <button
               onClick={() => setMuted((v) => !v)}
               className="p-2 rounded-lg bg-surface-light hover:bg-surface-light/80 transition-colors"
-              title={muted ? "开启声音" : "静音"}
+              title={muted ? t("piano.unmute") : t("piano.mute")}
             >
               {muted ? (
                 <VolumeX className="w-5 h-5 text-danger" />
@@ -180,7 +182,7 @@ export default function PianoTool() {
           animate={{ opacity: 1, height: "auto" }}
           className="bg-surface rounded-xl p-4 border border-surface-light mb-6"
         >
-          <h3 className="font-bold mb-2 text-sm">键盘映射</h3>
+          <h3 className="font-bold mb-2 text-sm">{t("piano.keyboardMapping")}</h3>
           <div className="grid grid-cols-4 md:grid-cols-8 gap-2 text-xs text-text-muted">
             {[
               ["A", "C3"],
@@ -278,7 +280,7 @@ export default function PianoTool() {
         className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4"
       >
         <div className="bg-surface rounded-xl p-5 border border-surface-light">
-          <h3 className="font-bold mb-3">C大调音阶</h3>
+          <h3 className="font-bold mb-3">{t("piano.cMajorScale")}</h3>
           <div className="flex flex-wrap gap-2">
             {["C", "D", "E", "F", "G", "A", "B", "C"].map((n, i) => (
               <button
@@ -293,17 +295,17 @@ export default function PianoTool() {
               </button>
             ))}
           </div>
-          <p className="text-text-muted text-xs mt-2">全-全-半-全-全-全-半</p>
+          <p className="text-text-muted text-xs mt-2">{t("piano.scalePattern")}</p>
         </div>
 
         <div className="bg-surface rounded-xl p-5 border border-surface-light">
-          <h3 className="font-bold mb-3">常用和弦</h3>
+          <h3 className="font-bold mb-3">{t("piano.commonChords")}</h3>
           <div className="space-y-2">
             {[
-              { name: "C大三和弦", notes: ["C4", "E4", "G4"] },
-              { name: "G大三和弦", notes: ["G3", "B3", "D4"] },
-              { name: "Am小三和弦", notes: ["A3", "C4", "E4"] },
-              { name: "F大三和弦", notes: ["F3", "A3", "C4"] },
+              { name: t("piano.cMajor"), notes: ["C4", "E4", "G4"] },
+              { name: t("piano.gMajor"), notes: ["G3", "B3", "D4"] },
+              { name: t("piano.aMinor"), notes: ["A3", "C4", "E4"] },
+              { name: t("piano.fMajor"), notes: ["F3", "A3", "C4"] },
             ].map((chord) => (
               <button
                 key={chord.name}

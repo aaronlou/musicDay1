@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BookOpen, Piano, BarChart3, ArrowRight, Sparkles } from "lucide-react";
 import { useProgressContext } from "@/context/ProgressContext";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
   const { courseCatalog, progress, loading } = useProgressContext();
+  const { t } = useTranslation();
 
   const totalLessons = progress?.total_lessons ?? 0;
   const completedCount = progress?.completed_lessons.length ?? 0;
@@ -13,7 +15,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-text-muted">加载中...</div>
+        <div className="text-text-muted">{t("common.loading")}</div>
       </div>
     );
   }
@@ -29,11 +31,11 @@ export default function Home() {
       >
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-6 h-6 text-secondary" />
-          <span className="text-secondary text-sm font-medium">零基础乐理入门</span>
+          <span className="text-secondary text-sm font-medium">{t("home.tagline")}</span>
         </div>
         <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
-          从零开始
-          <span className="text-primary">掌握乐理</span>
+          {t("home.titleStart")}
+          <span className="text-primary">{t("home.titleHighlight")}</span>
         </h1>
         <p className="text-text-muted text-lg max-w-2xl leading-relaxed">
           {courseCatalog?.description}
@@ -49,10 +51,10 @@ export default function Home() {
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-xl font-bold">学习进度</h2>
+            <h2 className="text-xl font-bold">{t("home.progressTitle")}</h2>
             <p className="text-text-muted text-sm mt-1">
-              已完成 {completedCount} / {totalLessons} 节课
-              {progress && progress.streak_days > 0 && ` · 连续学习 ${progress.streak_days} 天`}
+              {t("home.progressSubtitle", { count: completedCount, total: totalLessons })}
+              {progress && progress.streak_days > 0 && t("home.streak", { days: progress.streak_days })}
             </p>
           </div>
           <div className="text-3xl font-bold text-primary">{percent}%</div>
@@ -70,7 +72,7 @@ export default function Home() {
             to="/learn"
             className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
           >
-            {completedCount === 0 ? "开始学习" : "继续学习"}
+            {completedCount === 0 ? t("home.startLearning") : t("home.continueLearning")}
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
@@ -78,7 +80,7 @@ export default function Home() {
             className="inline-flex items-center gap-2 bg-surface-light hover:bg-surface-light/80 text-text px-5 py-2.5 rounded-lg font-medium transition-colors"
           >
             <BarChart3 className="w-4 h-4" />
-            查看详情
+            {t("home.viewDetails")}
           </Link>
         </div>
       </motion.div>
@@ -97,9 +99,12 @@ export default function Home() {
           <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/30 transition-colors">
             <BookOpen className="w-6 h-6 text-primary" />
           </div>
-          <h3 className="font-bold text-lg mb-2">系统课程</h3>
+          <h3 className="font-bold text-lg mb-2">{t("home.featureCourses")}</h3>
           <p className="text-text-muted text-sm leading-relaxed">
-            {courseCatalog?.chapters.length ?? 0} 大章节，{totalLessons} 节精品课程，从入门到精通
+            {t("home.featureCoursesDesc", {
+              chapters: courseCatalog?.chapters.length ?? 0,
+              lessons: totalLessons,
+            })}
           </p>
         </Link>
 
@@ -110,9 +115,9 @@ export default function Home() {
           <div className="w-12 h-12 bg-secondary/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-secondary/30 transition-colors">
             <Piano className="w-6 h-6 text-secondary" />
           </div>
-          <h3 className="font-bold text-lg mb-2">虚拟钢琴</h3>
+          <h3 className="font-bold text-lg mb-2">{t("home.featurePiano")}</h3>
           <p className="text-text-muted text-sm leading-relaxed">
-            内置虚拟钢琴，边学边弹，直观感受音高、音阶与和弦
+            {t("home.featurePianoDesc")}
           </p>
         </Link>
 
@@ -123,9 +128,9 @@ export default function Home() {
           <div className="w-12 h-12 bg-success/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-success/30 transition-colors">
             <BarChart3 className="w-6 h-6 text-success" />
           </div>
-          <h3 className="font-bold text-lg mb-2">随堂测验</h3>
+          <h3 className="font-bold text-lg mb-2">{t("home.featureQuiz")}</h3>
           <p className="text-text-muted text-sm leading-relaxed">
-            每课配套测验巩固知识，实时追踪学习进度与掌握情况
+            {t("home.featureQuizDesc")}
           </p>
         </Link>
       </motion.div>
@@ -138,7 +143,7 @@ export default function Home() {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="mt-10"
         >
-          <h2 className="text-xl font-bold mb-4">课程概览</h2>
+          <h2 className="text-xl font-bold mb-4">{t("home.overviewTitle")}</h2>
           <div className="space-y-3">
             {courseCatalog.chapters.map((ch, i) => (
               <div
@@ -153,7 +158,7 @@ export default function Home() {
                   <p className="text-text-muted text-sm truncate">{ch.description}</p>
                 </div>
                 <div className="text-text-muted text-sm flex-shrink-0">
-                  {ch.lesson_count} 课
+                  {ch.lesson_count} {t("common.lesson")}
                 </div>
               </div>
             ))}
